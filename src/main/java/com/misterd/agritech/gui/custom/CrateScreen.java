@@ -41,7 +41,6 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     @Override
     protected void init() {
         super.init();
-        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
 
         addRenderableWidget(new ImageButton(
                 leftPos + 160, topPos + 6, 9, 9,

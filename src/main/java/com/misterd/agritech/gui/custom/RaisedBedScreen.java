@@ -28,7 +28,6 @@ public class RaisedBedScreen extends AbstractContainerScreen<RaisedBedMenu> {
     @Override
     protected void init() {
         super.init();
-        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
     }
 
     @Override
