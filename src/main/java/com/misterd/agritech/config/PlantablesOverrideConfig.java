@@ -1,6 +1,14 @@
 package com.misterd.agritech.config;
 
+import com.misterd.agritech.util.RegistryHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,12 +16,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PlantablesOverrideConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger("agritech");
+    private static final Logger MAIN_LOGGER = LoggerFactory.getLogger("agritech");
+    private static org.apache.logging.log4j.Logger ERROR_LOGGER = null;
+    private static boolean HAS_LOGGED_ERRORS = false;
+    private static Path ERROR_LOG_PATH = null;
 
     private static final Pattern TABLE_PATTERN = Pattern.compile("\\[(\\w+)\\.([\\w]+)\\]");
     private static final Pattern KEY_VALUE_PATTERN = Pattern.compile("(\\w+)\\s*=\\s*(.+)");
@@ -23,6 +36,73 @@ public class PlantablesOverrideConfig {
     private static final Map<String, Integer> cropLineNumbers = new HashMap<>();
     private static final Map<String, Integer> treeLineNumbers = new HashMap<>();
     private static final Map<String, Integer> soilLineNumbers = new HashMap<>();
+
+    private static void setupErrorLogger() {
+        ERROR_LOGGER = LogManager.getLogger(PlantablesOverrideConfig.class);
+    }
+
+    private static synchronized void createLogFileIfNeeded() {
+        if (HAS_LOGGED_ERRORS) return;
+        try {
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
+            String logFileName = "plantables_config_overrides_errors_" + timestamp + ".log";
+            ERROR_LOG_PATH = FabricLoader.getInstance().getConfigDir()
+                    .resolve("agritech/plantables_overrides/plantables_config_logs")
+                    .resolve(logFileName);
+            Files.createDirectories(ERROR_LOG_PATH.getParent());
+
+            LoggerContext context = (LoggerContext) LogManager.getContext(false);
+            Configuration config = context.getConfiguration();
+
+            LoggerConfig existing = config.getLoggerConfig("PlantablesOverrideErrorLogger");
+            if (existing != null && !existing.getName().equals(LogManager.ROOT_LOGGER_NAME)) {
+                existing.getAppenders().forEach((name, appender) -> {
+                    existing.removeAppender(name);
+                    appender.stop();
+                });
+                config.removeLogger("PlantablesOverrideErrorLogger");
+            }
+
+            PatternLayout layout = PatternLayout.newBuilder()
+                    .withPattern("%d{yyyy-MM-dd HH:mm:ss} [%p] %m%n")
+                    .build();
+            FileAppender appender = FileAppender.newBuilder()
+                    .setName("PlantablesOverrideErrorAppender")
+                    .withFileName(ERROR_LOG_PATH.toString())
+                    .setLayout(layout)
+                    .setConfiguration(config)
+                    .build();
+            appender.start();
+
+            config.addAppender(appender);
+            LoggerConfig loggerConfig = new LoggerConfig("PlantablesOverrideErrorLogger", Level.INFO, false);
+            loggerConfig.addAppender(appender, Level.INFO, null);
+            config.addLogger("PlantablesOverrideErrorLogger", loggerConfig);
+            context.updateLoggers();
+
+            ERROR_LOGGER = LogManager.getLogger("PlantablesOverrideErrorLogger");
+            MAIN_LOGGER.info("Created override config error log file: {}", ERROR_LOG_PATH);
+            HAS_LOGGED_ERRORS = true;
+        } catch (Exception e) {
+            MAIN_LOGGER.error("Failed to set up dedicated error logger: {}", e.getMessage());
+        }
+    }
+
+    private static void logError(String message, Object... params) {
+        createLogFileIfNeeded();
+        ERROR_LOGGER.error(message, params);
+    }
+
+    private static void logWarning(String message, Object... params) {
+        createLogFileIfNeeded();
+        ERROR_LOGGER.warn(message, params);
+    }
+
+    public static void resetErrorFlag() {
+        HAS_LOGGED_ERRORS = false;
+        ERROR_LOGGER = null;
+        ERROR_LOG_PATH = null;
+    }
 
     public static void loadOverrides(
             Map<String, PlantablesConfig.CropInfo> crops,
@@ -34,6 +114,7 @@ public class PlantablesOverrideConfig {
         Path configDir = FabricLoader.getInstance().getConfigDir()
                 .resolve("agritech/plantables_overrides");
         Path overridePath = configDir.resolve("plantables_config_overrides.toml");
+        setupErrorLogger();
 
         if (!Files.exists(overridePath)) {
             createDefaultOverrideFile(configDir, overridePath);
@@ -41,7 +122,7 @@ public class PlantablesOverrideConfig {
         }
 
         try {
-            LOGGER.info("Loading plantables overrides from {}", overridePath);
+            MAIN_LOGGER.info("Loading plantables overrides from {}", overridePath);
             cropLineNumbers.clear();
             treeLineNumbers.clear();
             soilLineNumbers.clear();
@@ -51,10 +132,12 @@ public class PlantablesOverrideConfig {
             int treeCount = processTreeEntries(tables.getOrDefault("trees", Collections.emptyMap()), trees);
             int soilCount = processSoilEntries(tables.getOrDefault("soils", Collections.emptyMap()), cropSoils, treeSoils);
             int fertilizerCount = processFertilizerEntries(tables.getOrDefault("fertilizers", Collections.emptyMap()), fertilizers);
-            LOGGER.info("Loaded {} crop, {} tree, {} soil, and {} fertilizer overrides",
+            MAIN_LOGGER.info("Successfully loaded {} crop, {} tree, {} soil, and {} fertilizer overrides",
                     cropCount, treeCount, soilCount, fertilizerCount);
         } catch (Exception e) {
-            LOGGER.error("Failed to load plantables_config_overrides.toml: {}", e.getMessage());
+            MAIN_LOGGER.error("Failed to load plantables_config_overrides.toml: {}", e.getMessage());
+            logError("Failed to load plantables_config_overrides.toml: {}", e.getMessage());
+            logError("The override file will be ignored, but the mod will continue to function");
         }
     }
 
@@ -250,12 +333,19 @@ public class PlantablesOverrideConfig {
             try {
                 Object seedObj = plantConfig.get(seedKey);
                 if (seedObj == null) {
-                    LOGGER.warn("{} override '{}'{} is missing a {} ID, skipping",
-                            plantType, plantName, lineInfo(lineNumbers, plantName), seedKey);
+                    String info = lineInfo(lineNumbers, plantName);
+                    MAIN_LOGGER.warn("{} override '{}'{} is missing a {} ID, skipping", plantType, plantName, info, seedKey);
+                    logWarning("{} override '{}'{} is missing a {} ID, skipping", plantType, plantName, info, seedKey);
                     continue;
                 }
 
                 String seedId = seedObj.toString();
+                if (RegistryHelper.getItem(seedId) == null) {
+                    String info = lineInfo(lineNumbers, plantName);
+                    MAIN_LOGGER.warn("{} override '{}'{} uses non-existent {} item: {}, skipping", plantType, plantName, info, seedKey, seedId);
+                    logWarning("{} override '{}'{} uses non-existent {} item: {}, skipping", plantType, plantName, info, seedKey, seedId);
+                    continue;
+                }
 
                 List<String> existingValidSoils = isCrop
                         ? (crops.containsKey(seedId) ? crops.get(seedId).validSoils : new ArrayList<>())
@@ -266,13 +356,20 @@ public class PlantablesOverrideConfig {
                 if (soilsObj instanceof List<?> soilList) {
                     for (Object soilObj : soilList) {
                         String soilId = soilObj.toString();
-                        if (!validSoils.contains(soilId)) validSoils.add(soilId);
+                        if (RegistryHelper.getBlock(soilId) == null) {
+                            String info = lineInfo(lineNumbers, plantName);
+                            MAIN_LOGGER.warn("{} override '{}'{} references non-existent soil block: {}, skipping this soil", plantType, plantName, info, soilId);
+                            logWarning("{} override '{}'{} references non-existent soil block: {}, skipping this soil", plantType, plantName, info, soilId);
+                        } else if (!validSoils.contains(soilId)) {
+                            validSoils.add(soilId);
+                        }
                     }
                 }
 
                 if (validSoils.isEmpty()) {
-                    LOGGER.warn("{} override '{}'{} has no valid soils, skipping",
-                            plantType, plantName, lineInfo(lineNumbers, plantName));
+                    String info = lineInfo(lineNumbers, plantName);
+                    MAIN_LOGGER.warn("{} override '{}'{} has no valid soils, skipping", plantType, plantName, info);
+                    logWarning("{} override '{}'{} has no valid soils, skipping", plantType, plantName, info);
                     continue;
                 }
 
@@ -280,8 +377,9 @@ public class PlantablesOverrideConfig {
                 if (plantConfig.containsKey("drops")) {
                     drops = processDrops(plantConfig, plantName, lineNumbers, plantType);
                     if (drops.isEmpty()) {
-                        LOGGER.warn("{} override '{}'{} has no valid drops, skipping",
-                                plantType, plantName, lineInfo(lineNumbers, plantName));
+                        String info = lineInfo(lineNumbers, plantName);
+                        MAIN_LOGGER.warn("{} override '{}'{} has no valid drops, skipping", plantType, plantName, info);
+                        logWarning("{} override '{}'{} has no valid drops, skipping", plantType, plantName, info);
                         continue;
                     }
                 }
@@ -299,11 +397,12 @@ public class PlantablesOverrideConfig {
                 }
 
                 count++;
-                LOGGER.info("Applied {} override for '{}'", plantType.toLowerCase(), plantName);
+                MAIN_LOGGER.info("Added {} override for '{}' with {} {}", plantType.toLowerCase(), plantName, seedKey, seedId);
 
             } catch (Exception e) {
-                LOGGER.error("Error processing {} override '{}'{}: {}",
-                        plantType.toLowerCase(), plantName, lineInfo(lineNumbers, plantName), e.getMessage());
+                String info = lineInfo(lineNumbers, plantName);
+                MAIN_LOGGER.error("Error processing {} override '{}'{}: {}", plantType.toLowerCase(), plantName, info, e.getMessage());
+                logError("Error processing {} override '{}'{}: {}", plantType.toLowerCase(), plantName, info, e.getMessage());
             }
         }
 
@@ -336,8 +435,9 @@ public class PlantablesOverrideConfig {
                 Map<String, Object> dropMap = (Map<String, Object>) rawMap;
                 Object itemObj = dropMap.get("item");
                 if (itemObj == null) {
-                    LOGGER.warn("{} override '{}'{} has drop without item ID, skipping",
-                            plantType, plantName, lineInfo(lineNumbers, plantName));
+                    String info = lineInfo(lineNumbers, plantName);
+                    MAIN_LOGGER.warn("{} override '{}'{} has drop without item ID, skipping", plantType, plantName, info);
+                    logWarning("{} override '{}'{} has drop without item ID, skipping", plantType, plantName, info);
                     continue;
                 }
                 dropId = itemObj.toString();
@@ -346,6 +446,13 @@ public class PlantablesOverrideConfig {
                 if (dropMap.get("chance") instanceof Number n) chance = n.floatValue();
             } else {
                 dropId = dropObj.toString();
+            }
+
+            if (RegistryHelper.getItem(dropId) == null) {
+                String info = lineInfo(lineNumbers, plantName);
+                MAIN_LOGGER.warn("{} override '{}'{} references non-existent drop item: {}, skipping this drop", plantType, plantName, info, dropId);
+                logWarning("{} override '{}'{} references non-existent drop item: {}, skipping this drop", plantType, plantName, info, dropId);
+                continue;
             }
 
             drops.add(new PlantablesConfig.DropInfo(dropId, minCount, maxCount, chance));
@@ -368,22 +475,31 @@ public class PlantablesOverrideConfig {
             try {
                 Object blockObj = soilConfig.get("block");
                 if (blockObj == null) {
-                    LOGGER.warn("Soil override '{}'{} is missing a block ID, skipping",
-                            soilName, lineInfo(soilLineNumbers, soilName));
+                    String info = lineInfo(soilLineNumbers, soilName);
+                    MAIN_LOGGER.warn("Soil override '{}'{} is missing a block ID, skipping", soilName, info);
+                    logWarning("Soil override '{}'{} is missing a block ID, skipping", soilName, info);
                     continue;
                 }
 
                 String soilId = blockObj.toString();
+                if (RegistryHelper.getBlock(soilId) == null) {
+                    String info = lineInfo(soilLineNumbers, soilName);
+                    MAIN_LOGGER.warn("Soil override '{}'{} uses non-existent block: {}, skipping", soilName, info, soilId);
+                    logWarning("Soil override '{}'{} uses non-existent block: {}, skipping", soilName, info, soilId);
+                    continue;
+                }
+
                 float growthModifier = soilConfig.get("growth_modifier") instanceof Number n ? n.floatValue() : 1.0F;
                 PlantablesConfig.SoilInfo info = new PlantablesConfig.SoilInfo(growthModifier);
                 cropSoils.put(soilId, info);
                 treeSoils.put(soilId, info);
                 count++;
-                LOGGER.info("Applied soil override for '{}'", soilName);
+                MAIN_LOGGER.info("Added soil override for '{}' with block {}", soilName, soilId);
 
             } catch (Exception e) {
-                LOGGER.error("Error processing soil override '{}'{}: {}",
-                        soilName, lineInfo(soilLineNumbers, soilName), e.getMessage());
+                String info = lineInfo(soilLineNumbers, soilName);
+                MAIN_LOGGER.error("Error processing soil override '{}'{}: {}", soilName, info, e.getMessage());
+                logError("Error processing soil override '{}'{}: {}", soilName, info, e.getMessage());
             }
         }
 
@@ -403,19 +519,27 @@ public class PlantablesOverrideConfig {
             try {
                 Object itemObj = fertilizerConfig.get("item");
                 if (itemObj == null) {
-                    LOGGER.warn("Fertilizer override '{}' is missing item ID, skipping", fertilizerName);
+                    MAIN_LOGGER.warn("Fertilizer override '{}' is missing item ID, skipping", fertilizerName);
+                    logWarning("Fertilizer override '{}' is missing item ID, skipping", fertilizerName);
                     continue;
                 }
 
                 String itemId = itemObj.toString();
+                if (RegistryHelper.getItem(itemId) == null) {
+                    MAIN_LOGGER.warn("Fertilizer override '{}' uses non-existent item: {}, skipping", fertilizerName, itemId);
+                    logWarning("Fertilizer override '{}' uses non-existent item: {}, skipping", fertilizerName, itemId);
+                    continue;
+                }
+
                 float speed = fertilizerConfig.get("speed_multiplier") instanceof Number n ? n.floatValue() : 1.2F;
                 float yield = fertilizerConfig.get("yield_multiplier") instanceof Number n ? n.floatValue() : 1.2F;
                 fertilizers.put(itemId, new PlantablesConfig.FertilizerInfo(speed, yield));
                 count++;
-                LOGGER.info("Applied fertilizer override for '{}'", fertilizerName);
+                MAIN_LOGGER.info("Added fertilizer override for '{}' with item {}", fertilizerName, itemId);
 
             } catch (Exception e) {
-                LOGGER.error("Error processing fertilizer override '{}': {}", fertilizerName, e.getMessage());
+                MAIN_LOGGER.error("Error processing fertilizer override '{}': {}", fertilizerName, e.getMessage());
+                logError("Error processing fertilizer override '{}': {}", fertilizerName, e.getMessage());
             }
         }
 
@@ -426,9 +550,12 @@ public class PlantablesOverrideConfig {
         try {
             Files.createDirectories(configDir);
             Files.writeString(overridePath, createTemplate());
-            LOGGER.info("Created default plantables_config_overrides.toml at {}", overridePath);
+            MAIN_LOGGER.info("Created default plantables_config_overrides.toml at {}", overridePath);
         } catch (IOException e) {
-            LOGGER.error("Failed to create plantables_config_overrides.toml: {}", e.getMessage());
+            MAIN_LOGGER.error("Failed to create plantables_config_overrides.toml: {}", e.getMessage());
+            if (HAS_LOGGED_ERRORS) {
+                ERROR_LOGGER.error("Failed to create plantables_config_overrides.toml: {}", e.getMessage());
+            }
         }
     }
 
@@ -436,7 +563,10 @@ public class PlantablesOverrideConfig {
         return """
                 # Plantables Override Configuration
                 # Add custom crops, trees, soils, and fertilizers here without modifying the core config.
-                # Entries here will override or extend existing configurations for the same items/blocks.
+                # Any entries here will override or extend existing configurations for the same items/blocks.
+                #
+                # IMPORTANT: Incorrect IDs will be skipped with a warning in both the main log and a
+                # dedicated error log file created in the plantables_config_logs directory.
                 #
                 # NOTES:
                 # - If a crop/tree already exists, its soils list will be EXTENDED, not replaced.

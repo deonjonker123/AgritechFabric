@@ -23,6 +23,12 @@
 		],
 		"fabric-datagen": [
 			"com.misterd.agritech.AgritechDataGenerator"
+		],
+		"jade": [
+			"com.misterd.agritech.compat.jade.ATJadePlugin"
+		],
+		"jei_mod_plugin": [
+			"com.misterd.agritech.compat.jei.ATJeiPlugin"
 		]
 	},
 	"mixins": [

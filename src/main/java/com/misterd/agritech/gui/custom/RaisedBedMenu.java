@@ -19,6 +19,10 @@ public class RaisedBedMenu extends AbstractContainerMenu {
     public final RaisedBedBlockEntity blockEntity;
     private final Level level;
 
+    public RaisedBedMenu(int id, Inventory inv, BlockPos pos) {
+        this(id, inv, (RaisedBedBlockEntity) inv.player.level().getBlockEntity(pos));
+    }
+
     public RaisedBedMenu(int id, Inventory inv, RaisedBedBlockEntity be) {
         super(ATMenuTypes.RAISED_BED_MENU, id);
         this.blockEntity = be;
@@ -29,10 +33,6 @@ public class RaisedBedMenu extends AbstractContainerMenu {
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
-    }
-
-    public RaisedBedMenu(int id, Inventory inv, BlockPos pos) {
-        this(id, inv, (RaisedBedBlockEntity) inv.player.level().getBlockEntity(pos));
     }
 
     @Override
@@ -74,6 +74,8 @@ public class RaisedBedMenu extends AbstractContainerMenu {
                     return copy;
                 }
             }
+            // Item doesn't fit any BE slot — don't attempt to move it, just bail
+            return ItemStack.EMPTY;
         } else {
             if (!moveItemStackTo(stack, 2, slots.size(), true)) return ItemStack.EMPTY;
         }

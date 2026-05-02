@@ -9,6 +9,7 @@ import com.misterd.agritech.util.RegistryHelper;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -153,7 +154,7 @@ public class PlanterBlock extends BaseEntityBlock {
                     ? PlantablesConfig.isSoilValidForSeed(soilId, heldItemId)
                     : PlantablesConfig.isSoilValidForSapling(soilId, heldItemId);
             if (!valid) {
-                player.sendSystemMessage(Component.translatable("message.agritech.invalid_seed_soil_combination"));
+                player.sendOverlayMessage(Component.translatable("message.agritech.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
                 return InteractionResult.SUCCESS;
             }
         }
@@ -180,7 +181,7 @@ public class PlanterBlock extends BaseEntityBlock {
                     ? PlantablesConfig.isSoilValidForSeed(heldItemId, plantId)
                     : PlantablesConfig.isSoilValidForSapling(heldItemId, plantId);
             if (!valid) {
-                player.sendSystemMessage(Component.translatable("message.agritech.invalid_seed_soil_combination"));
+                player.sendOverlayMessage(Component.translatable("message.agritech.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
                 return InteractionResult.SUCCESS;
             }
         }

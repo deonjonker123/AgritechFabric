@@ -68,6 +68,14 @@ public class PlanterMenu extends AbstractContainerMenu {
 
         if ((PlantablesConfig.isValidSeed(id) || PlantablesConfig.isValidSapling(id))
                 && blockEntity.getItem(PlanterBlockEntity.SLOT_PLANT).isEmpty()) {
+            ItemStack existingSoil = blockEntity.getItem(PlanterBlockEntity.SLOT_SOIL);
+            if (!existingSoil.isEmpty()) {
+                String soilId = RegistryHelper.getItemId(existingSoil);
+                boolean valid = PlantablesConfig.isValidSeed(id)
+                        ? PlantablesConfig.isSoilValidForSeed(soilId, id)
+                        : PlantablesConfig.isSoilValidForSapling(soilId, id);
+                if (!valid) return false;
+            }
             blockEntity.setItem(PlanterBlockEntity.SLOT_PLANT, stack.copyWithCount(1));
             stack.shrink(1);
             return true;
@@ -75,6 +83,14 @@ public class PlanterMenu extends AbstractContainerMenu {
 
         if (PlantablesConfig.isValidSoil(id)
                 && blockEntity.getItem(PlanterBlockEntity.SLOT_SOIL).isEmpty()) {
+            ItemStack existingPlant = blockEntity.getItem(PlanterBlockEntity.SLOT_PLANT);
+            if (!existingPlant.isEmpty()) {
+                String plantId = RegistryHelper.getItemId(existingPlant);
+                boolean valid = PlantablesConfig.isValidSeed(plantId)
+                        ? PlantablesConfig.isSoilValidForSeed(id, plantId)
+                        : PlantablesConfig.isSoilValidForSapling(id, plantId);
+                if (!valid) return false;
+            }
             blockEntity.setItem(PlanterBlockEntity.SLOT_SOIL, stack.copyWithCount(1));
             stack.shrink(1);
             return true;

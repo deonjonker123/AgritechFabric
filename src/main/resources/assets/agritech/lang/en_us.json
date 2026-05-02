@@ -49,8 +49,20 @@
   "item.agritech.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
 
   "tooltip.agritech.growth_progress": "Growth Progress",
+  "tooltip.agritech.view_recipes": "Click to view Recipes",
   "tooltip.agritech.crate.collecting": "Turn off auto-collecting",
   "tooltip.agritech.crate.not_collecting": "Turn on auto-collecting",
 
-  "message.agritech.invalid_seed_soil_combination": "This seed cannot grow in this soil!"
+  "message.agritech.invalid_seed_soil_combination": "This seed cannot grow in this soil!",
+
+  "jade.agritech.crop_progress": "%s (Stage %d/%d - %d%%)",
+  "jade.agritech.crop_ready": "%s (Ready to Harvest)",
+  "jade.agritech.soil_info": "Soil: %s (%s speed)",
+  "jade.agritech.fertilizer_info": "Fertilizer: %s (Speed: %s, Yield: %s)",
+  "jade.agritech.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)",
+  "jade.agritech.sky_boost": "Sunlight Bonus: %s",
+
+  "jei.agritech.planter.tooltip": "Agritech Planters",
+  "jei.agritech.raised_bed.tooltip": "Agritech Raised Beds",
+  "jei.agritech.raised_bed.drops_on_ground": "Dropped in world"
 }
