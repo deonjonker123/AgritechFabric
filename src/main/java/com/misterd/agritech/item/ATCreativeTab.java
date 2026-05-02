@@ -41,9 +41,20 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.PALE_OAK_RAISED_BED);
                         output.accept(ATBlocks.SPRUCE_RAISED_BED);
                         output.accept(ATBlocks.WARPED_RAISED_BED);
+
+                        output.accept(ATBlocks.ACACIA_CRATE);
+                        output.accept(ATBlocks.BAMBOO_CRATE);
+                        output.accept(ATBlocks.BIRCH_CRATE);
+                        output.accept(ATBlocks.CHERRY_CRATE);
+                        output.accept(ATBlocks.CRIMSON_CRATE);
+                        output.accept(ATBlocks.DARK_OAK_CRATE);
+                        output.accept(ATBlocks.JUNGLE_CRATE);
+                        output.accept(ATBlocks.MANGROVE_CRATE);
+                        output.accept(ATBlocks.OAK_CRATE);
+                        output.accept(ATBlocks.PALE_OAK_CRATE);
+                        output.accept(ATBlocks.SPRUCE_CRATE);
+                        output.accept(ATBlocks.WARPED_CRATE);
                     }).build());
 
-    public static void registerCreativeModeTabs() {
-
-    }
+    public static void registerCreativeModeTabs() {}
 }

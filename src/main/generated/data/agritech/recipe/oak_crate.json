@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "minecraft:chest",
+    "P": "minecraft:oak_planks",
+    "S": "minecraft:oak_slab"
+  },
+  "pattern": [
+    "P P",
+    "PCP",
+    "PSP"
+  ],
+  "result": {
+    "id": "agritech:oak_crate"
+  }
+}

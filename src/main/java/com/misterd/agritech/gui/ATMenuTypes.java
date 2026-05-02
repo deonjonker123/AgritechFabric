@@ -1,6 +1,7 @@
 package com.misterd.agritech.gui;
 
 import com.misterd.agritech.Agritech;
+import com.misterd.agritech.gui.custom.CrateMenu;
 import com.misterd.agritech.gui.custom.PlanterMenu;
 import com.misterd.agritech.gui.custom.RaisedBedMenu;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
@@ -18,6 +19,10 @@ public class ATMenuTypes {
     public static final MenuType<RaisedBedMenu> RAISED_BED_MENU =
             Registry.register(BuiltInRegistries.MENU, Identifier.fromNamespaceAndPath(Agritech.MODID, "raised_bed_menu"),
                     new ExtendedMenuType<>(RaisedBedMenu::new, BlockPos.STREAM_CODEC));
+
+    public static final MenuType<CrateMenu> CRATE_MENU =
+            Registry.register(BuiltInRegistries.MENU, Identifier.fromNamespaceAndPath(Agritech.MODID, "crate_menu"),
+                    new ExtendedMenuType<>(CrateMenu::new, BlockPos.STREAM_CODEC));
 
     public static void registerATMenuTypes() {
 

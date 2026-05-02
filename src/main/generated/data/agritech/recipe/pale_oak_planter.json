@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "minecraft:pale_oak_slab",
+    "H": "minecraft:hopper",
+    "L": "minecraft:pale_oak_log",
+    "P": "minecraft:pale_oak_planks"
+  },
+  "pattern": [
+    "P P",
+    "PDP",
+    "LHL"
+  ],
+  "result": {
+    "id": "agritech:pale_oak_planter"
+  }
+}

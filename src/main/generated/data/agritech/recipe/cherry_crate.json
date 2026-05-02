@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "minecraft:chest",
+    "P": "minecraft:cherry_planks",
+    "S": "minecraft:cherry_slab"
+  },
+  "pattern": [
+    "P P",
+    "PCP",
+    "PSP"
+  ],
+  "result": {
+    "id": "agritech:cherry_crate"
+  }
+}

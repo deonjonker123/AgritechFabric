@@ -1,6 +1,7 @@
 package com.misterd.agritech.block;
 
 import com.misterd.agritech.Agritech;
+import com.misterd.agritech.block.custom.CrateBlock;
 import com.misterd.agritech.block.custom.PlanterBlock;
 import com.misterd.agritech.block.custom.RaisedBedBlock;
 import net.minecraft.core.Registry;
@@ -66,6 +67,31 @@ public class ATBlocks {
             p -> new RaisedBedBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block WARPED_RAISED_BED = registerBlock("warped_raised_bed",
             p -> new RaisedBedBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+
+    public static final Block ACACIA_CRATE = registerBlock("acacia_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block BAMBOO_CRATE = registerBlock("bamboo_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block BIRCH_CRATE = registerBlock("birch_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block CHERRY_CRATE = registerBlock("cherry_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block CRIMSON_CRATE = registerBlock("crimson_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block DARK_OAK_CRATE = registerBlock("dark_oak_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block JUNGLE_CRATE = registerBlock("jungle_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block MANGROVE_CRATE = registerBlock("mangrove_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block OAK_CRATE = registerBlock("oak_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block PALE_OAK_CRATE = registerBlock("pale_oak_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block SPRUCE_CRATE= registerBlock("spruce_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block WARPED_CRATE = registerBlock("warped_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
 
     private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> function) {
         Block block = function.apply(BlockBehaviour.Properties.of()

@@ -23,6 +23,18 @@
     "agritech:oak_raised_bed",
     "agritech:pale_oak_raised_bed",
     "agritech:spruce_raised_bed",
-    "agritech:warped_raised_bed"
+    "agritech:warped_raised_bed",
+    "agritech:acacia_crate",
+    "agritech:bamboo_crate",
+    "agritech:birch_crate",
+    "agritech:cherry_crate",
+    "agritech:crimson_crate",
+    "agritech:dark_oak_crate",
+    "agritech:jungle_crate",
+    "agritech:mangrove_crate",
+    "agritech:oak_crate",
+    "agritech:pale_oak_crate",
+    "agritech:spruce_crate",
+    "agritech:warped_crate"
   ]
 }

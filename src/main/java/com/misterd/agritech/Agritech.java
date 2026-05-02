@@ -7,6 +7,7 @@ import com.misterd.agritech.config.PlantablesConfig;
 import com.misterd.agritech.gui.ATMenuTypes;
 import com.misterd.agritech.item.ATCreativeTab;
 import com.misterd.agritech.item.ATItems;
+import com.misterd.agritech.network.ATNetwork;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -26,5 +27,6 @@ public class Agritech implements ModInitializer {
 		ATCreativeTab.registerCreativeModeTabs();
 		ATBlockEntities.registerBlockEntities();
 		ATMenuTypes.registerATMenuTypes();
+		ATNetwork.registerATNetwork();
 	}
 }

@@ -4,6 +4,7 @@ import com.misterd.agritech.blockentity.ATBlockEntities;
 import com.misterd.agritech.client.ber.PlanterBlockEntityRenderer;
 import com.misterd.agritech.client.ber.RaisedBedBlockEntityRenderer;
 import com.misterd.agritech.gui.ATMenuTypes;
+import com.misterd.agritech.gui.custom.CrateScreen;
 import com.misterd.agritech.gui.custom.PlanterScreen;
 import com.misterd.agritech.gui.custom.RaisedBedScreen;
 import net.fabricmc.api.ClientModInitializer;
@@ -17,5 +18,6 @@ public class AgritechClient implements ClientModInitializer {
         BlockEntityRenderers.register(ATBlockEntities.RAISED_BED_BE, RaisedBedBlockEntityRenderer::new);
         MenuScreens.register(ATMenuTypes.PLANTER_MENU, PlanterScreen::new);
         MenuScreens.register(ATMenuTypes.RAISED_BED_MENU, RaisedBedScreen::new);
+        MenuScreens.register(ATMenuTypes.CRATE_MENU, CrateScreen::new);
     }
 }

@@ -27,14 +27,30 @@
   "block.agritech.spruce_raised_bed": "Spruce Raised Bed",
   "block.agritech.warped_raised_bed": "Warped Raised Bed",
 
+  "block.agritech.acacia_crate": "Acacia Crate",
+  "block.agritech.bamboo_crate": "Bamboo Crate",
+  "block.agritech.birch_crate": "Birch Crate",
+  "block.agritech.cherry_crate": "Cherry Crate",
+  "block.agritech.crimson_crate": "Crimson Crate",
+  "block.agritech.dark_oak_crate": "Dark Oak Crate",
+  "block.agritech.jungle_crate": "Jungle Crate",
+  "block.agritech.mangrove_crate": "Mangrove Crate",
+  "block.agritech.oak_crate": "Oak Crate",
+  "block.agritech.pale_oak_crate": "Pale Oak Crate",
+  "block.agritech.spruce_crate": "Spruce Crate",
+  "block.agritech.warped_crate": "Warped Crate",
+
   "gui.agritech.planter_menu": "Planter",
   "gui.agritech.raised_bed_menu": "Raised Bed",
+  "gui.agritech.crate_menu": "Crate",
 
   "item.agritech.cloche.tooltip.line1": "Place on a planter to improve growth and yield.",
   "item.agritech.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
   "item.agritech.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
 
   "tooltip.agritech.growth_progress": "Growth Progress",
+  "tooltip.agritech.crate.collecting": "Turn off auto-collecting",
+  "tooltip.agritech.crate.not_collecting": "Turn on auto-collecting",
 
   "message.agritech.invalid_seed_soil_combination": "This seed cannot grow in this soil!"
 }

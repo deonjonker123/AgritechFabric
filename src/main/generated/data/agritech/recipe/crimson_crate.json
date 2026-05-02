@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "minecraft:chest",
+    "P": "minecraft:crimson_planks",
+    "S": "minecraft:crimson_slab"
+  },
+  "pattern": [
+    "P P",
+    "PCP",
+    "PSP"
+  ],
+  "result": {
+    "id": "agritech:crimson_crate"
+  }
+}

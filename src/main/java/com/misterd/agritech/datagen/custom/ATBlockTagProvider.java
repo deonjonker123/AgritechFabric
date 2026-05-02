@@ -40,6 +40,19 @@ public class ATBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 .add(ATBlocks.OAK_RAISED_BED)
                 .add(ATBlocks.PALE_OAK_RAISED_BED)
                 .add(ATBlocks.SPRUCE_RAISED_BED)
-                .add(ATBlocks.WARPED_RAISED_BED);
+                .add(ATBlocks.WARPED_RAISED_BED)
+
+                .add(ATBlocks.ACACIA_CRATE)
+                .add(ATBlocks.BAMBOO_CRATE)
+                .add(ATBlocks.BIRCH_CRATE)
+                .add(ATBlocks.CHERRY_CRATE)
+                .add(ATBlocks.CRIMSON_CRATE)
+                .add(ATBlocks.DARK_OAK_CRATE)
+                .add(ATBlocks.JUNGLE_CRATE)
+                .add(ATBlocks.MANGROVE_CRATE)
+                .add(ATBlocks.OAK_CRATE)
+                .add(ATBlocks.PALE_OAK_CRATE)
+                .add(ATBlocks.SPRUCE_CRATE)
+                .add(ATBlocks.WARPED_CRATE);
     }
 }
