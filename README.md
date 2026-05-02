@@ -107,7 +107,7 @@ Failed reloads report errors directly in chat rather than silently failing.
 -   Progress bars for all processing operations
 -   Audio feedback for successful interactions
 
-## Minecraft 26.1.2 Exclusive (in addition to all above)
+## Minecraft 26.1.2 Exclusive (in addition to everything above)
 
 The following features are available exclusively on the 26.1.2 version of AgriTech.
 
