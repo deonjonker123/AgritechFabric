@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "minecraft:crimson_slab",
+    "P": "minecraft:crimson_planks"
+  },
+  "pattern": [
+    "PDP"
+  ],
+  "result": {
+    "id": "agritech:crimson_raised_bed"
+  }
+}

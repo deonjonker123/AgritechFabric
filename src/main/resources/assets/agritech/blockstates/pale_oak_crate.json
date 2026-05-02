@@ -1,8 +1,0 @@
-{
-	"variants": {
-		"facing=north": { "model": "agritech:block/pale_oak_crate"},
-		"facing=south": {"model": "agritech:block/pale_oak_crate", "y": 180},
-		"facing=east": {"model": "agritech:block/pale_oak_crate", "y": 90},
-		"facing=west": {"model": "agritech:block/pale_oak_crate", "y": 270}
-	}
-}

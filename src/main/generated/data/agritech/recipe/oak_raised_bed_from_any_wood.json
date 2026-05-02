@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "#minecraft:wooden_slabs",
+    "P": "#minecraft:planks"
+  },
+  "pattern": [
+    "PDP"
+  ],
+  "result": {
+    "id": "agritech:oak_raised_bed"
+  }
+}

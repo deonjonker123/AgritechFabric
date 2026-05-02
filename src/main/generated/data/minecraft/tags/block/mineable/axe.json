@@ -11,6 +11,18 @@
     "agritech:oak_planter",
     "agritech:pale_oak_planter",
     "agritech:spruce_planter",
-    "agritech:warped_planter"
+    "agritech:warped_planter",
+    "agritech:acacia_raised_bed",
+    "agritech:bamboo_raised_bed",
+    "agritech:birch_raised_bed",
+    "agritech:cherry_raised_bed",
+    "agritech:crimson_raised_bed",
+    "agritech:dark_oak_raised_bed",
+    "agritech:jungle_raised_bed",
+    "agritech:mangrove_raised_bed",
+    "agritech:oak_raised_bed",
+    "agritech:pale_oak_raised_bed",
+    "agritech:spruce_raised_bed",
+    "agritech:warped_raised_bed"
   ]
 }

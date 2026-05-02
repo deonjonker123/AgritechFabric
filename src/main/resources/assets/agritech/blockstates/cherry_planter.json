@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "cloched=false": { "model": "agritech:block/cherry_planter" },
-    "cloched=true":  { "model": "agritech:block/cherry_planter" }
-  }
-}

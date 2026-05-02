@@ -26,5 +26,18 @@ public class ATLootTableProvider extends FabricBlockLootSubProvider {
         dropSelf(ATBlocks.PALE_OAK_PLANTER);
         dropSelf(ATBlocks.SPRUCE_PLANTER);
         dropSelf(ATBlocks.WARPED_PLANTER);
+
+        dropSelf(ATBlocks.ACACIA_RAISED_BED);
+        dropSelf(ATBlocks.BAMBOO_RAISED_BED);
+        dropSelf(ATBlocks.BIRCH_RAISED_BED);
+        dropSelf(ATBlocks.CHERRY_RAISED_BED);
+        dropSelf(ATBlocks.CRIMSON_RAISED_BED);
+        dropSelf(ATBlocks.DARK_OAK_RAISED_BED);
+        dropSelf(ATBlocks.JUNGLE_RAISED_BED);
+        dropSelf(ATBlocks.MANGROVE_RAISED_BED);
+        dropSelf(ATBlocks.OAK_RAISED_BED);
+        dropSelf(ATBlocks.PALE_OAK_RAISED_BED);
+        dropSelf(ATBlocks.SPRUCE_RAISED_BED);
+        dropSelf(ATBlocks.WARPED_RAISED_BED);
     }
 }

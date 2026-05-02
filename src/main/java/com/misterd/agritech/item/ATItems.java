@@ -11,8 +11,6 @@ import net.minecraft.world.item.Item;
 import java.util.function.Function;
 
 public class ATItems {
-    public static final Item CLOCHE = registerItem("cloche_dome", Item::new);
-
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(Agritech.MODID, name),
                 function.apply(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Agritech.MODID, name)))));

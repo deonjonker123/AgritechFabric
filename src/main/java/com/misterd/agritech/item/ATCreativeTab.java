@@ -29,7 +29,18 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.SPRUCE_PLANTER);
                         output.accept(ATBlocks.WARPED_PLANTER);
 
-                        output.accept(ATItems.CLOCHE);
+                        output.accept(ATBlocks.ACACIA_RAISED_BED);
+                        output.accept(ATBlocks.BAMBOO_RAISED_BED);
+                        output.accept(ATBlocks.BIRCH_RAISED_BED);
+                        output.accept(ATBlocks.CHERRY_RAISED_BED);
+                        output.accept(ATBlocks.CRIMSON_RAISED_BED);
+                        output.accept(ATBlocks.DARK_OAK_RAISED_BED);
+                        output.accept(ATBlocks.JUNGLE_RAISED_BED);
+                        output.accept(ATBlocks.MANGROVE_RAISED_BED);
+                        output.accept(ATBlocks.OAK_RAISED_BED);
+                        output.accept(ATBlocks.PALE_OAK_RAISED_BED);
+                        output.accept(ATBlocks.SPRUCE_RAISED_BED);
+                        output.accept(ATBlocks.WARPED_RAISED_BED);
                     }).build());
 
     public static void registerCreativeModeTabs() {

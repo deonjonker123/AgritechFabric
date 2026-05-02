@@ -1,8 +1,0 @@
-{
-	"variants": {
-		"facing=north": { "model": "agritech:block/birch_crate"},
-		"facing=south": {"model": "agritech:block/birch_crate", "y": 180},
-		"facing=east": {"model": "agritech:block/birch_crate", "y": 90},
-		"facing=west": {"model": "agritech:block/birch_crate", "y": 270}
-	}
-}

@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "cloched=false": { "model": "agritech:block/jungle_planter" },
-    "cloched=true":  { "model": "agritech:block/jungle_planter" }
-  }
-}

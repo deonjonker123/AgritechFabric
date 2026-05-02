@@ -2,6 +2,7 @@ package com.misterd.agritech;
 
 import com.misterd.agritech.datagen.custom.ATBlockTagProvider;
 import com.misterd.agritech.datagen.custom.ATLootTableProvider;
+import com.misterd.agritech.datagen.custom.ATModelProvider;
 import com.misterd.agritech.datagen.custom.ATRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -14,5 +15,6 @@ public class AgritechDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ATLootTableProvider::new);
 		pack.addProvider(ATBlockTagProvider::new);
 		pack.addProvider(ATRecipeProvider::new);
+		pack.addProvider(ATModelProvider::new);
 	}
 }

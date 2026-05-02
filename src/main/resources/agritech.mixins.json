@@ -3,7 +3,7 @@
 	"package": "com.misterd.agritech.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ExampleMixin"
+		"HoeItemAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

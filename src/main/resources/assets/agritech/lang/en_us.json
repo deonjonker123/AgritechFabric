@@ -14,7 +14,27 @@
   "block.agritech.spruce_planter": "Spruce Planter",
   "block.agritech.warped_planter": "Warped Planter",
 
-  "item.agritech.cloche_dome": "Cloche Dome",
+  "block.agritech.acacia_raised_bed": "Acacia Raised Bed",
+  "block.agritech.bamboo_raised_bed": "Bamboo Raised Bed",
+  "block.agritech.birch_raised_bed": "Birch Raised Bed",
+  "block.agritech.cherry_raised_bed": "Cherry Raised Bed",
+  "block.agritech.crimson_raised_bed": "Crimson Raised Bed",
+  "block.agritech.dark_oak_raised_bed": "Dark Oak Raised Bed",
+  "block.agritech.jungle_raised_bed": "Jungle Raised Bed",
+  "block.agritech.mangrove_raised_bed": "Mangrove Raised Bed",
+  "block.agritech.oak_raised_bed": "Oak Raised Bed",
+  "block.agritech.pale_oak_raised_bed": "Pale Oak Raised Bed",
+  "block.agritech.spruce_raised_bed": "Spruce Raised Bed",
+  "block.agritech.warped_raised_bed": "Warped Raised Bed",
 
-  "gui.agritech.planter_menu": "Planter"
+  "gui.agritech.planter_menu": "Planter",
+  "gui.agritech.raised_bed_menu": "Raised Bed",
+
+  "item.agritech.cloche.tooltip.line1": "Place on a planter to improve growth and yield.",
+  "item.agritech.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
+  "item.agritech.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
+
+  "tooltip.agritech.growth_progress": "Growth Progress",
+
+  "message.agritech.invalid_seed_soil_combination": "This seed cannot grow in this soil!"
 }

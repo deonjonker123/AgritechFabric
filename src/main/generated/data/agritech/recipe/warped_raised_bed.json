@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "minecraft:warped_slab",
+    "P": "minecraft:warped_planks"
+  },
+  "pattern": [
+    "PDP"
+  ],
+  "result": {
+    "id": "agritech:warped_raised_bed"
+  }
+}

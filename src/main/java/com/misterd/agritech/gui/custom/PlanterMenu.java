@@ -1,104 +1,152 @@
 package com.misterd.agritech.gui.custom;
 
+import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
+import com.misterd.agritech.config.PlantablesConfig;
 import com.misterd.agritech.gui.ATMenuTypes;
+import com.misterd.agritech.util.RegistryHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 public class PlanterMenu extends AbstractContainerMenu {
-    private final Container inventory;
 
-    public PlanterMenu(int containerId, Inventory inv, BlockPos blockPos) {
-        this(containerId, inv, inv.player.level().getBlockEntity(blockPos));
+    public final PlanterBlockEntity blockEntity;
+    private final Level level;
+
+    public PlanterMenu(int id, Inventory inv, BlockPos pos) {
+        this(id, inv, (PlanterBlockEntity) inv.player.level().getBlockEntity(pos));
     }
 
-    public PlanterMenu (int containerId, Inventory inv, BlockEntity blockEntity) {
-        super (ATMenuTypes.PLANTER_MENU, containerId);
-        this.inventory = ((Container) blockEntity);
+    public PlanterMenu(int id, Inventory inv, PlanterBlockEntity be) {
+        super(ATMenuTypes.PLANTER_MENU, id);
+        this.blockEntity = be;
+        this.level = inv.player.level();
+
+        addSlot(new PlanterSlot(be, PlanterBlockEntity.SLOT_PLANT, 8, 18));
+        addSlot(new PlanterSlot(be, PlanterBlockEntity.SLOT_SOIL, 8, 54));
+        addSlot(new FertilizerSlot(be, PlanterBlockEntity.SLOT_FERTILIZER, 152, 18));
+
+        int slot = PlanterBlockEntity.SLOT_OUTPUT_START;
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 4; col++)
+                addSlot(new OutputSlot(be, slot++, 62 + col * 18, 18 + row * 18));
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
-
-        addSlot(new Slot(inventory, 0, 8, 18) {
-            @Override
-            public int getMaxStackSize() {
-                return 1;
-            }
-        });
-        addSlot(new Slot(inventory, 1, 8, 54) {
-            @Override
-            public int getMaxStackSize() {
-                return 1;
-            }
-        });
-        addSlot(new Slot(inventory, 2, 152, 18));
-
-        int slot = 3;
-        for (int row = 0; row < 3; row++)
-            for (int col = 0; col < 4; col++)
-                addSlot(new Slot(inventory, slot++, 62 + col * 18, 18 + row * 18));
     }
 
-    private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-
-    private static final int TE_INVENTORY_SLOT_COUNT = 15;
-
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int index) {
-        Slot sourceSlot = slots.get(index);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;
-        ItemStack sourceStack = sourceSlot.getItem();
-        ItemStack copyOfSourceStack = sourceStack.copy();
+    public ItemStack quickMoveStack(Player player, int index) {
+        Slot source = slots.get(index);
+        if (source == null || !source.hasItem()) return ItemStack.EMPTY;
 
-        if (index < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;
-            }
-        } else if (index < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;
-            }
+        ItemStack stack = source.getItem();
+        ItemStack copy = stack.copy();
+
+        // From block entity slots -> player inventory
+        if (index < 15) {
+            if (!moveItemStackTo(stack, 15, 51, true)) return ItemStack.EMPTY;
         } else {
-            System.out.println("Invalid slotIndex:" + index);
-            return ItemStack.EMPTY;
+            // From player inventory -> try special slots first, then give up
+            if (!moveToSpecialSlots(stack)) return ItemStack.EMPTY;
         }
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.set(ItemStack.EMPTY);
-        } else {
-            sourceSlot.setChanged();
+
+        if (stack.isEmpty()) source.set(ItemStack.EMPTY);
+        else source.setChanged();
+
+        source.onTake(player, stack);
+        return copy;
+    }
+
+    private boolean moveToSpecialSlots(ItemStack stack) {
+        String id = RegistryHelper.getItemId(stack);
+
+        if ((PlantablesConfig.isValidSeed(id) || PlantablesConfig.isValidSapling(id))
+                && blockEntity.getItem(PlanterBlockEntity.SLOT_PLANT).isEmpty()) {
+            blockEntity.setItem(PlanterBlockEntity.SLOT_PLANT, stack.copyWithCount(1));
+            stack.shrink(1);
+            return true;
         }
-        sourceSlot.onTake(playerIn, sourceStack);
-        return copyOfSourceStack;
+
+        if (PlantablesConfig.isValidSoil(id)
+                && blockEntity.getItem(PlanterBlockEntity.SLOT_SOIL).isEmpty()) {
+            blockEntity.setItem(PlanterBlockEntity.SLOT_SOIL, stack.copyWithCount(1));
+            stack.shrink(1);
+            return true;
+        }
+
+        if (PlantablesConfig.isValidFertilizer(id)) {
+            return moveItemStackTo(stack, PlanterBlockEntity.SLOT_FERTILIZER, PlanterBlockEntity.SLOT_FERTILIZER + 1, false);
+        }
+
+        return false;
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return this.inventory.stillValid(player);
+        return stillValid(
+                ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
+                player,
+                blockEntity.getBlockState().getBlock()
+        );
     }
 
-    private void addPlayerInventory(Inventory playerInventory) {
-        for (int i = 0; i < 3; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 88 + i * 18));
-            }
+    private void addPlayerInventory(Inventory inv) {
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 9; col++)
+                addSlot(new Slot(inv, col + row * 9 + 9, 8 + col * 18, 88 + row * 18));
+    }
+
+    private void addPlayerHotbar(Inventory inv) {
+        for (int i = 0; i < 9; i++)
+            addSlot(new Slot(inv, i, 8 + i * 18, 147));
+    }
+
+    private static class PlanterSlot extends Slot {
+        private final PlanterBlockEntity be;
+        private final int index;
+
+        public PlanterSlot(PlanterBlockEntity be, int index, int x, int y) {
+            super(be, index, x, y);
+            this.be = be;
+            this.index = index;
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return be.canPlaceItem(index, stack);
+        }
+
+        @Override
+        public int getMaxStackSize() {
+            return 1;
         }
     }
 
-    private void addPlayerHotbar(Inventory playerInventory) {
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 147));
+    private static class FertilizerSlot extends Slot {
+        public FertilizerSlot(PlanterBlockEntity be, int index, int x, int y) {
+            super(be, index, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(stack));
+        }
+    }
+
+    private static class OutputSlot extends Slot {
+        public OutputSlot(PlanterBlockEntity be, int index, int x, int y) {
+            super(be, index, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return false;
         }
     }
 }

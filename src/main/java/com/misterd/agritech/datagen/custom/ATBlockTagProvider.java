@@ -27,6 +27,19 @@ public class ATBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 .add(ATBlocks.OAK_PLANTER)
                 .add(ATBlocks.PALE_OAK_PLANTER)
                 .add(ATBlocks.SPRUCE_PLANTER)
-                .add(ATBlocks.WARPED_PLANTER);
+                .add(ATBlocks.WARPED_PLANTER)
+
+                .add(ATBlocks.ACACIA_RAISED_BED)
+                .add(ATBlocks.BAMBOO_RAISED_BED)
+                .add(ATBlocks.BIRCH_RAISED_BED)
+                .add(ATBlocks.CHERRY_RAISED_BED)
+                .add(ATBlocks.CRIMSON_RAISED_BED)
+                .add(ATBlocks.DARK_OAK_RAISED_BED)
+                .add(ATBlocks.JUNGLE_RAISED_BED)
+                .add(ATBlocks.MANGROVE_RAISED_BED)
+                .add(ATBlocks.OAK_RAISED_BED)
+                .add(ATBlocks.PALE_OAK_RAISED_BED)
+                .add(ATBlocks.SPRUCE_RAISED_BED)
+                .add(ATBlocks.WARPED_RAISED_BED);
     }
 }

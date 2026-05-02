@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "minecraft:jungle_slab",
+    "P": "minecraft:jungle_planks"
+  },
+  "pattern": [
+    "PDP"
+  ],
+  "result": {
+    "id": "agritech:jungle_raised_bed"
+  }
+}

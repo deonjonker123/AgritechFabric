@@ -2,6 +2,9 @@ package com.misterd.agritech;
 
 import com.misterd.agritech.block.ATBlocks;
 import com.misterd.agritech.blockentity.ATBlockEntities;
+import com.misterd.agritech.config.Config;
+import com.misterd.agritech.config.PlantablesConfig;
+import com.misterd.agritech.gui.ATMenuTypes;
 import com.misterd.agritech.item.ATCreativeTab;
 import com.misterd.agritech.item.ATItems;
 import net.fabricmc.api.ModInitializer;
@@ -15,9 +18,13 @@ public class Agritech implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		Config.load();
+		PlantablesConfig.loadConfig();
+
 		ATItems.registerATItems();
 		ATBlocks.registerATBlocks();
 		ATCreativeTab.registerCreativeModeTabs();
 		ATBlockEntities.registerBlockEntities();
+		ATMenuTypes.registerATMenuTypes();
 	}
 }
