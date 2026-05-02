@@ -11,7 +11,7 @@ AgriTech is a new and improved take on the original Agritech: Crops and Agritech
 
 -   **Agritech Planter**: A simple wooden planter that automatically grows crops and saplings. Automatically outputs drops to a container under it. Available in all 11 vanilla wood types.
 
-### **Cloche**
+### **Cloche** (NeoForge only)
 A glass bell jar that attaches to any planter, boosting both growth speed and harvest yield. Stacks with fertilizer for maximum efficiency. Configurable speed and yield multipliers.
 
 - Right-click a planter with a cloche to attach it
@@ -23,13 +23,13 @@ A glass bell jar that attaches to any planter, boosting both growth speed and ha
 Fertilizer support with configurable speed and yield multipliers:
 
 -   Vanilla bone meal
--   Mystical Agriculture fertilizers
--   Immersive Engineering fertilizers
--   Forbidden & Arcanus arcane bone meal
+-   Mystical Agriculture fertilizers (NeoForge only)
+-   Immersive Engineering fertilizers (NeoForge only)
+-   Forbidden & Arcanus arcane bone meal (NeoForge only)
 
 Fertilizer can be automated via hopper or pipe into any of the four cardinal sides of the planter.
 
-## Mod Compatibility
+## Mod Compatibility (NeoForge)
 
 ### **Supported Crop Mods**
 
@@ -62,6 +62,20 @@ Fertilizer can be automated via hopper or pipe into any of the four cardinal sid
 -   Farmer's Delight soils
 -   Just Dire Things goosoils
 
+## Mod Compatibility (Fabric)
+
+### **Supported Crop Mods**
+- Farmer's Delight Refabricated
+- Cobblemon
+- Croptopia
+
+### **Supported Tree Mods**
+- Cobblemon
+- Croptopia
+
+### **Supported Soil Mods**
+-   Farmer's Delight Refabricated soils
+
 ## Advanced Configuration System
 
 1.  **Mod Compatibility Toggles**: Enable/disable specific mod integrations per-mod, so you only load what you need.
@@ -93,19 +107,7 @@ Failed reloads report errors directly in chat rather than silently failing.
 -   Progress bars for all processing operations
 -   Audio feedback for successful interactions
 
-## JEI Integration
-
--   Compatible crop/soil combinations of the planters
-
-## Jade Integration
-
--   Displays current crop or sapling name
--   Shows growth stage and progress percentage
--   Shows active soil type and its growth modifier
--   Shows active fertilizer when one is slotted
-- Shows cloche status with speed and yield modifiers
-
-## Minecraft 26.1.2 Exclusive
+## Minecraft 26.1.2 Exclusive (in addition to all above)
 
 The following features are available exclusively on the 26.1.2 version of AgriTech.
 
@@ -139,3 +141,4 @@ An open-top wooden storage block with a 54-slot inventory — double chest capac
 - Shows growth stage and progress percentage
 - Shows active soil type and its growth modifier
 - Shows sunlight boost status when active
+- Shows cloche status with speed and yield modifiers (NeoForge only)
