@@ -14,5 +14,7 @@
   "block.agritech.spruce_planter": "Spruce Planter",
   "block.agritech.warped_planter": "Warped Planter",
 
-  "item.agritech.cloche_dome": "Cloche Dome"
+  "item.agritech.cloche_dome": "Cloche Dome",
+
+  "gui.agritech.planter_menu": "Planter"
 }

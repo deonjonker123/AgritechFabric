@@ -1,6 +1,7 @@
 package com.misterd.agritech;
 
-import com.misterd.agritech.blocks.ATBlocks;
+import com.misterd.agritech.block.ATBlocks;
+import com.misterd.agritech.blockentity.ATBlockEntities;
 import com.misterd.agritech.item.ATCreativeTab;
 import com.misterd.agritech.item.ATItems;
 import net.fabricmc.api.ModInitializer;
@@ -17,5 +18,6 @@ public class Agritech implements ModInitializer {
 		ATItems.registerATItems();
 		ATBlocks.registerATBlocks();
 		ATCreativeTab.registerCreativeModeTabs();
+		ATBlockEntities.registerBlockEntities();
 	}
 }

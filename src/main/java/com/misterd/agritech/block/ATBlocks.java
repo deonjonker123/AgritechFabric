@@ -1,7 +1,7 @@
-package com.misterd.agritech.blocks;
+package com.misterd.agritech.block;
 
 import com.misterd.agritech.Agritech;
-import com.misterd.agritech.blocks.custom.AcaciaPlanterBlock;
+import com.misterd.agritech.block.custom.AcaciaPlanterBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -102,6 +102,6 @@ public class ATBlocks {
     }
 
     public static void registerATBlocks() {
-        Agritech.LOGGER.info("Registering Agritech Blocks for " + Agritech.MODID);
+
     }
 }

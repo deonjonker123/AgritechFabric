@@ -1,6 +1,7 @@
-package com.misterd.agritech.blocks.custom;
+package com.misterd.agritech.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 
 public class AcaciaPlanterBlock extends PlanterBlock{
@@ -10,7 +11,7 @@ public class AcaciaPlanterBlock extends PlanterBlock{
         super(properties);
     }
 
-    protected MapCodec<? extends Block> codec() {
+    protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
 }

@@ -18,6 +18,9 @@
 		"main": [
 			"com.misterd.agritech.Agritech"
 		],
+		"client": [
+			"com.misterd.agritech.AgritechClient"
+		],
 		"fabric-datagen": [
 			"com.misterd.agritech.AgritechDataGenerator"
 		]

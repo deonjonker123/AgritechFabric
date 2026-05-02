@@ -1,6 +1,6 @@
 package com.misterd.agritech.datagen.custom;
 
-import com.misterd.agritech.blocks.ATBlocks;
+import com.misterd.agritech.block.ATBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.core.HolderLookup;

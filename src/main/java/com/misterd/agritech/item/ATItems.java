@@ -19,8 +19,6 @@ public class ATItems {
     }
 
     public static void registerATItems() {
-        Agritech.LOGGER.info("Registering Agritech Item for " + Agritech.MODID);
+
     }
-
-
 }

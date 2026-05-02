@@ -1,7 +1,7 @@
 package com.misterd.agritech.item;
 
 import com.misterd.agritech.Agritech;
-import com.misterd.agritech.blocks.ATBlocks;
+import com.misterd.agritech.block.ATBlocks;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,6 +33,6 @@ public class ATCreativeTab {
                     }).build());
 
     public static void registerCreativeModeTabs() {
-        Agritech.LOGGER.info("Registering Create Tabs for " + Agritech.MODID);
+
     }
 }
