@@ -3,15 +3,15 @@
 	"id": "agritech",
 	"version": "${version}",
 	"name": "Agritech",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Agritech introduces planters, raised beds and crates to help with crop and sapling automation.",
 	"authors": [
-		"Me!"
+		"MisterD Modding"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/agritech/icon.png",
 	"environment": "*",
 	"entrypoints": {
