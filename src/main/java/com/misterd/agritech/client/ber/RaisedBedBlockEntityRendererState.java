@@ -1,6 +1,8 @@
 package com.misterd.agritech.client.ber;
 
+import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.item.ItemStack;
 
 public class RaisedBedBlockEntityRendererState extends BlockEntityRenderState {
@@ -9,7 +11,6 @@ public class RaisedBedBlockEntityRendererState extends BlockEntityRenderState {
     public float growthProgress = 0f;
     public int growthStage = 0;
     public boolean soilIsWater = false;
-    public long posSeed = 0L;
-    public int[] soilTints = new int[0];
-    public int[] plantTints = new int[0];
+    final ItemStackRenderState soilRenderState = new ItemStackRenderState();
+    final BlockModelRenderState plantModel = new BlockModelRenderState();
 }
