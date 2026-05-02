@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "cloched=false": { "model": "agritech:block/dark_oak_planter" },
+    "cloched=true":  { "model": "agritech:block/dark_oak_planter" }
+  }
+}

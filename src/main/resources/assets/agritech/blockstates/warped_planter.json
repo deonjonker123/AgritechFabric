@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "cloched=false": { "model": "agritech:block/warped_planter" },
+    "cloched=true":  { "model": "agritech:block/warped_planter" }
+  }
+}

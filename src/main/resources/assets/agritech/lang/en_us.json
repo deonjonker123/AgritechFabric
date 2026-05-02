@@ -1,0 +1,18 @@
+{
+  "creativetab.agritech": "Agritech",
+
+  "block.agritech.acacia_planter": "Acacia Planter",
+  "block.agritech.bamboo_planter": "Bamboo Planter",
+  "block.agritech.birch_planter": "Birch Planter",
+  "block.agritech.cherry_planter": "Cherry Planter",
+  "block.agritech.crimson_planter": "Crimson Planter",
+  "block.agritech.dark_oak_planter": "Dark Oak Planter",
+  "block.agritech.jungle_planter": "Jungle Planter",
+  "block.agritech.mangrove_planter": "Mangrove Planter",
+  "block.agritech.oak_planter": "Oak Planter",
+  "block.agritech.pale_oak_planter": "Pale Oak Planter",
+  "block.agritech.spruce_planter": "Spruce Planter",
+  "block.agritech.warped_planter": "Warped Planter",
+
+  "item.agritech.cloche_dome": "Cloche Dome"
+}
