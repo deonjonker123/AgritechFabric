@@ -131,11 +131,11 @@ An open-top wooden storage block with a 54-slot inventory — double chest capac
 - Works as a standalone decorative storage block independent of the farming system
 - Configurable collection interval
 
-### **JEI Integration (Raised Beds)**
+### **JEI Integration**
 
 - Compatible crop/soil combinations for raised beds, showing drops as text with count ranges and chance percentages
 
-### **Jade Integration (Raised Beds)**
+### **Jade Integration**
 
 - Displays current crop or sapling name
 - Shows growth stage and progress percentage
