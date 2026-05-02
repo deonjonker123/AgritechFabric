@@ -90,7 +90,7 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
             } else if (state.soilStack.getItem() instanceof BlockItem soilBlockItem) {
                 BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
                 poseStack.pushPose();
-                poseStack.translate(0.175, 0.401, 0.175);
+                poseStack.translate(0.175, 0.55, 0.175);
                 poseStack.scale(0.65f, 0.05f, 0.65f);
                 submitBlockQuads(soilState, state.posSeed, state.soilTints, poseStack, collector, light);
                 poseStack.popPose();
@@ -113,12 +113,12 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
                     poseStack.pushPose();
                     if (isTree) {
                         float scale = 0.3f + state.growthProgress * 0.4f;
-                        poseStack.translate(0.5, 0.45, 0.5);
+                        poseStack.translate(0.5, 0.6, 0.5);
                         poseStack.scale(scale, scale, scale);
                         poseStack.translate(-0.5, 0.0, -0.5);
                     } else {
                         float gs = 0.2f + Math.min(1f, state.growthProgress) * 0.5f;
-                        poseStack.translate(0.1725, 0.45, 0.1725);
+                        poseStack.translate(0.1725, 0.6, 0.1725);
                         poseStack.scale(0.65f, gs, 0.65f);
                     }
                     submitBlockQuads(plantState, state.posSeed ^ 1L, state.plantTints, poseStack, collector, light);
@@ -174,7 +174,7 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
                 .getAtlasOrThrow(AtlasIds.BLOCKS)
                 .getSprite(WATER_STILL);
 
-        float y = 0.41f;
+        float y = 0.6f;
         float xMin = 0.175f, xMax = 0.825f;
         float zMin = 0.175f, zMax = 0.825f;
         float u0 = sprite.getU0(), u1 = sprite.getU1();
