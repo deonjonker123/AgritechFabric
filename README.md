@@ -133,7 +133,7 @@ An open-top wooden storage block with a 54-slot inventory — double chest capac
 
 ### **JEI Integration**
 
-- Compatible crop/soil combinations for raised beds, showing drops as text with count ranges and chance percentages
+- Compatible crop/soil combinations for planters and raised beds, showing drops as text with count ranges and chance percentages
 
 ### **Jade Integration**
 
