@@ -55,6 +55,15 @@
 
   "message.agritech.invalid_seed_soil_combination": "This seed cannot grow in this soil!",
 
+  "tooltip.agritech.slot.plant": "Plant Slot",
+  "tooltip.agritech.slot.soil": "Soil Slot",
+  "tooltip.agritech.slot.fertilizer": "Fertilizer Slot",
+
+  "tooltip.agritech.planter.till": "Right-click with a Hoe to till soil placed inside",
+  "tooltip.agritech.planter.fertilize": "Right-click with Bone Meal or fertilizer to boost crop growth",
+
+  "config.jade.plugin_agritech.raised_bed_info": "Raised Bed Info",
+  "config.jade.plugin_agritech.planter_info": "Planter Info",
   "jade.agritech.crop_progress": "%s (Stage %d/%d - %d%%)",
   "jade.agritech.crop_ready": "%s (Ready to Harvest)",
   "jade.agritech.soil_info": "Soil: %s (%s speed)",
