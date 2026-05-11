@@ -88,11 +88,11 @@ public class CrateMenu extends AbstractContainerMenu {
     private void addPlayerInventory(Inventory inv) {
         for (int row = 0; row < 3; row++)
             for (int col = 0; col < 9; col++)
-                addSlot(new Slot(inv, col + row * 9 + 9, 8 + col * 18, 124 + row * 18));
+                addSlot(new Slot(inv, col + row * 9 + 9, 8 + col * 18, 142 + row * 18));
     }
 
     private void addPlayerHotbar(Inventory inv) {
         for (int col = 0; col < 9; col++)
-            addSlot(new Slot(inv, col, 8 + col * 18, 183));
+            addSlot(new Slot(inv, col, 8 + col * 18, 201));
     }
 }
