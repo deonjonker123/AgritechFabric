@@ -1,9 +1,5 @@
 
-![AT](https://raw.githubusercontent.com/deonjonker123/AgritechTwo/refs/heads/26.1.2/banner.png)
-
-# AgriTech
-
-AgriTech is a new and improved take on the original Agritech: Crops and Agritech: Trees mods, now combined into a single, more intuitive package. It brings expanded mod compatibility, a reworked configuration system, and a brand new fertilizer system for enhanced automation — all under one roof.
+![AT](https://raw.githubusercontent.com/deonjonker123/AgritechTwo/refs/heads/26.1.2/at_ban.png)
 
 ## Core Features
 
@@ -43,6 +39,7 @@ Fertilizer can be automated via hopper or pipe into any of the four cardinal sid
 - Pam's HarvestCraft 2 - Crops
 - Actually Additions
 - Croptopia
+- The Aether II
 
 ### **Supported Tree Mods**
 
@@ -55,12 +52,14 @@ Fertilizer can be automated via hopper or pipe into any of the four cardinal sid
 - Pam's HarvestCraft 2 - Trees
 - Croptopia
 - EvilCraft
+- The Aether II
 
 ### **Supported Soil Mods**
 
 -   Mystical Agriculture farmlands
 -   Farmer's Delight soils
 -   Just Dire Things goosoils
+- The Aether II
 
 ## Mod Compatibility (Fabric)
 
