@@ -18,11 +18,11 @@ public class RaisedBedScreen extends AbstractContainerScreen<RaisedBedMenu> {
     private static final Identifier GUI_TEXTURE =
             Identifier.fromNamespaceAndPath("agritech", "textures/gui/raised_bed_gui.png");
 
-    private static final int GUI_HEIGHT = 135;
+    private static final int GUI_HEIGHT = 136;
 
     public RaisedBedScreen(RaisedBedMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title, 176, GUI_HEIGHT);
-        this.inventoryLabelY = GUI_HEIGHT - 96;
+        this.inventoryLabelY = GUI_HEIGHT - 94;
     }
 
     @Override

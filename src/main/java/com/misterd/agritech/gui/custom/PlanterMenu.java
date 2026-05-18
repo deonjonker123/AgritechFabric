@@ -48,11 +48,9 @@ public class PlanterMenu extends AbstractContainerMenu {
         ItemStack stack = source.getItem();
         ItemStack copy = stack.copy();
 
-        // From block entity slots -> player inventory
         if (index < 15) {
             if (!moveItemStackTo(stack, 15, 51, true)) return ItemStack.EMPTY;
         } else {
-            // From player inventory -> try special slots first, then give up
             if (!moveToSpecialSlots(stack)) return ItemStack.EMPTY;
         }
 
@@ -120,7 +118,7 @@ public class PlanterMenu extends AbstractContainerMenu {
 
     private void addPlayerHotbar(Inventory inv) {
         for (int i = 0; i < 9; i++)
-            addSlot(new Slot(inv, i, 8 + i * 18, 147));
+            addSlot(new Slot(inv, i, 8 + i * 18, 146));
     }
 
     private static class PlanterSlot extends Slot {

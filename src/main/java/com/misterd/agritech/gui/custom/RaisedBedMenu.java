@@ -74,7 +74,6 @@ public class RaisedBedMenu extends AbstractContainerMenu {
                     return copy;
                 }
             }
-            // Item doesn't fit any BE slot — don't attempt to move it, just bail
             return ItemStack.EMPTY;
         } else {
             if (!moveItemStackTo(stack, 2, slots.size(), true)) return ItemStack.EMPTY;
@@ -103,7 +102,7 @@ public class RaisedBedMenu extends AbstractContainerMenu {
 
     private void addPlayerHotbar(Inventory inv) {
         for (int col = 0; col < 9; col++)
-            addSlot(new Slot(inv, col, 8 + col * 18, 111));
+            addSlot(new Slot(inv, col, 8 + col * 18, 110));
     }
 
     private static class RaisedBedSlot extends Slot {

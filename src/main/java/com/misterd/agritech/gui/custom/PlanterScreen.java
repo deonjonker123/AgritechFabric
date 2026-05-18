@@ -18,11 +18,11 @@ public class PlanterScreen extends AbstractContainerScreen<PlanterMenu> {
     private static final Identifier GUI_TEXTURE =
             Identifier.fromNamespaceAndPath("agritech", "textures/gui/planter_gui.png");
 
-    private static final int GUI_HEIGHT = 171;
+    private static final int GUI_HEIGHT = 172;
 
     public PlanterScreen(PlanterMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title, 176, GUI_HEIGHT);
-        this.inventoryLabelY = GUI_HEIGHT - 96;
+        this.inventoryLabelY = GUI_HEIGHT - 94;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class PlanterScreen extends AbstractContainerScreen<PlanterMenu> {
 
         float growthProgress = this.menu.blockEntity.getGrowthProgress();
         if (growthProgress > 0.0F) {
-            int barHeight = (int) (52.0F * growthProgress);
-            int barY = this.topPos + 18 + 52 - barHeight;
+            int barHeight = (int) (54.0F * growthProgress);
+            int barY = this.topPos + 17 + 54 - barHeight;
             graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE,
                     this.leftPos + 40, barY,
-                    176.0F, (float) (52 - barHeight),
+                    176.0F, (float) (54 - barHeight),
                     6, barHeight, 256, 256);
         }
 

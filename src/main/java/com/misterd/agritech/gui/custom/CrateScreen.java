@@ -29,12 +29,12 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
             Identifier.fromNamespaceAndPath("agritech", "disable_collection_btn")
     );
 
-    private static final int GUI_HEIGHT = 225;
+    private static final int GUI_HEIGHT = 226;
     private boolean collecting;
 
     public CrateScreen(CrateMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title, 176, GUI_HEIGHT);
-        this.inventoryLabelY = GUI_HEIGHT - 96;
+        this.inventoryLabelY = GUI_HEIGHT - 94;
         this.collecting = menu.isCollecting();
     }
 
@@ -43,7 +43,7 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
         super.init();
 
         addRenderableWidget(new ImageButton(
-                leftPos + 160, topPos + 6, 9, 9,
+                leftPos + 160, topPos + 6, 9, 10,
                 collecting ? COLLECTING_SPRITES : NOT_COLLECTING_SPRITES,
                 btn -> toggleCollecting()
         )).setTooltip(Tooltip.create(Component.translatable(

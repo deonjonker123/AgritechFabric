@@ -93,6 +93,6 @@ public class CrateMenu extends AbstractContainerMenu {
 
     private void addPlayerHotbar(Inventory inv) {
         for (int col = 0; col < 9; col++)
-            addSlot(new Slot(inv, col, 8 + col * 18, 201));
+            addSlot(new Slot(inv, col, 8 + col * 18, 200));
     }
 }
