@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_oak_log": {
+    "has_oak_planks": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:oak_log"
+            "items": "minecraft:oak_planks"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:oak_planter_from_any_wood"
+        "recipe": "agritech:zzz_oak_crate_from_any_wood"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oak_log"
+      "has_oak_planks"
     ]
   ],
   "rewards": {
     "recipes": [
-      "agritech:oak_planter_from_any_wood"
+      "agritech:zzz_oak_crate_from_any_wood"
     ]
   }
 }

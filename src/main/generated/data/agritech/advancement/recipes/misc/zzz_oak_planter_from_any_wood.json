@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:oak_raised_bed_from_any_wood"
+        "recipe": "agritech:zzz_oak_planter_from_any_wood"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "agritech:oak_raised_bed_from_any_wood"
+      "agritech:zzz_oak_planter_from_any_wood"
     ]
   }
 }

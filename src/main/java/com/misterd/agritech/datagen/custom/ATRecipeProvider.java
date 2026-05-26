@@ -82,7 +82,7 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .define('P', ItemTags.PLANKS).define('L', ItemTags.LOGS)
                         .define('H', Items.HOPPER).define('D', ItemTags.WOODEN_SLABS)
                         .unlockedBy("has_oak_log", has(Items.OAK_LOG))
-                        .save(output, "agritech:oak_planter_from_any_wood");
+                        .save(output, "agritech:zzz_oak_planter_from_any_wood");
 
                 shaped(RecipeCategory.MISC, ATBlocks.PALE_OAK_PLANTER)
                         .pattern("P P").pattern("PDP").pattern("LHL")
@@ -152,7 +152,7 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .pattern("PDP")
                         .define('P', ItemTags.PLANKS).define('D', ItemTags.WOODEN_SLABS)
                         .unlockedBy("has_oak_log", has(Items.OAK_LOG))
-                        .save(output, "agritech:oak_raised_bed_from_any_wood");
+                        .save(output, "agritech:zzz_oak_raised_bed_from_any_wood");
 
                 shaped(RecipeCategory.MISC, ATBlocks.PALE_OAK_RAISED_BED)
                         .pattern("PDP")
@@ -229,7 +229,7 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .define('P', ItemTags.PLANKS).define('C', Items.CHEST)
                         .define('S', ItemTags.WOODEN_SLABS)
                         .unlockedBy("has_oak_planks", has(Items.OAK_PLANKS))
-                        .save(output, "agritech:oak_crate_from_any_wood");
+                        .save(output, "agritech:zzz_oak_crate_from_any_wood");
 
                 shaped(RecipeCategory.MISC, ATBlocks.PALE_OAK_CRATE)
                         .pattern("P P").pattern("PCP").pattern("PSP")
