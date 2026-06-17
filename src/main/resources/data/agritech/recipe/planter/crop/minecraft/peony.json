@@ -1,0 +1,15 @@
+{
+  "type": "agritech:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:peony",
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "seed": "minecraft:peony",
+  "soils": [
+    "#agritech:dirt_soils"
+  ]
+}

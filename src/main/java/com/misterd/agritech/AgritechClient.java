@@ -1,6 +1,7 @@
 package com.misterd.agritech;
 
 import com.misterd.agritech.blockentity.ATBlockEntities;
+import com.misterd.agritech.client.DataMapTooltipHandler;
 import com.misterd.agritech.client.ber.PlanterBlockEntityRenderer;
 import com.misterd.agritech.client.ber.RaisedBedBlockEntityRenderer;
 import com.misterd.agritech.gui.ATMenuTypes;
@@ -19,5 +20,7 @@ public class AgritechClient implements ClientModInitializer {
         MenuScreens.register(ATMenuTypes.PLANTER_MENU, PlanterScreen::new);
         MenuScreens.register(ATMenuTypes.RAISED_BED_MENU, RaisedBedScreen::new);
         MenuScreens.register(ATMenuTypes.CRATE_MENU, CrateScreen::new);
+
+        DataMapTooltipHandler.register();
     }
 }

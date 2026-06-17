@@ -1,9 +1,8 @@
 package com.misterd.agritech.gui.custom;
 
 import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritech.config.PlantablesConfig;
+import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.ATMenuTypes;
-import com.misterd.agritech.util.RegistryHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -62,39 +61,23 @@ public class PlanterMenu extends AbstractContainerMenu {
     }
 
     private boolean moveToSpecialSlots(ItemStack stack) {
-        String id = RegistryHelper.getItemId(stack);
-
-        if ((PlantablesConfig.isValidSeed(id) || PlantablesConfig.isValidSapling(id))
-                && blockEntity.getItem(PlanterBlockEntity.SLOT_PLANT).isEmpty()) {
+        if (blockEntity.isValidPlant(stack) && blockEntity.getItem(PlanterBlockEntity.SLOT_PLANT).isEmpty()) {
             ItemStack existingSoil = blockEntity.getItem(PlanterBlockEntity.SLOT_SOIL);
-            if (!existingSoil.isEmpty()) {
-                String soilId = RegistryHelper.getItemId(existingSoil);
-                boolean valid = PlantablesConfig.isValidSeed(id)
-                        ? PlantablesConfig.isSoilValidForSeed(soilId, id)
-                        : PlantablesConfig.isSoilValidForSapling(soilId, id);
-                if (!valid) return false;
-            }
+            if (!existingSoil.isEmpty() && !blockEntity.isValidPlantSoilCombination(stack, existingSoil)) return false;
             blockEntity.setItem(PlanterBlockEntity.SLOT_PLANT, stack.copyWithCount(1));
             stack.shrink(1);
             return true;
         }
 
-        if (PlantablesConfig.isValidSoil(id)
-                && blockEntity.getItem(PlanterBlockEntity.SLOT_SOIL).isEmpty()) {
+        if (blockEntity.isValidSoilForAnyRecipe(stack) && blockEntity.getItem(PlanterBlockEntity.SLOT_SOIL).isEmpty()) {
             ItemStack existingPlant = blockEntity.getItem(PlanterBlockEntity.SLOT_PLANT);
-            if (!existingPlant.isEmpty()) {
-                String plantId = RegistryHelper.getItemId(existingPlant);
-                boolean valid = PlantablesConfig.isValidSeed(plantId)
-                        ? PlantablesConfig.isSoilValidForSeed(id, plantId)
-                        : PlantablesConfig.isSoilValidForSapling(id, plantId);
-                if (!valid) return false;
-            }
+            if (!existingPlant.isEmpty() && !blockEntity.isValidPlantSoilCombination(existingPlant, stack)) return false;
             blockEntity.setItem(PlanterBlockEntity.SLOT_SOIL, stack.copyWithCount(1));
             stack.shrink(1);
             return true;
         }
 
-        if (PlantablesConfig.isValidFertilizer(id)) {
+        if (ATDataMaps.getFertilizer(stack.getItem()) != null) {
             return moveItemStackTo(stack, PlanterBlockEntity.SLOT_FERTILIZER, PlanterBlockEntity.SLOT_FERTILIZER + 1, false);
         }
 
@@ -149,7 +132,7 @@ public class PlanterMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(stack));
+            return ATDataMaps.getFertilizer(stack.getItem()) != null;
         }
     }
 

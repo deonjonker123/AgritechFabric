@@ -1,12 +1,17 @@
 package com.misterd.agritech.blockentity.custom;
 
+import com.misterd.agritech.Agritech;
 import com.misterd.agritech.blockentity.ATBlockEntities;
-import com.misterd.agritech.config.Config;
-import com.misterd.agritech.config.PlantablesConfig;
+import com.misterd.agritech.config.ATConfig;
+import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.custom.PlanterMenu;
-import com.misterd.agritech.util.RegistryHelper;
+import com.misterd.agritech.recipe.ATRecipeTypes;
+import com.misterd.agritech.recipe.CropRecipe;
+import com.misterd.agritech.recipe.DropEntry;
+import com.misterd.agritech.recipe.TreeRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -14,12 +19,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,6 +48,13 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
     public static final int SLOT_OUTPUT_END = 14;
     public static final int SIZE = 15;
 
+    private @Nullable CropRecipe cachedCropRecipe = null;
+    private @Nullable TreeRecipe cachedTreeRecipe = null;
+    private @Nullable Item cachedSeedItem = null;
+    private Set<Item> cachedValidSoils = null;
+    private int soilCacheRevision = -1;
+    private int cachedRevision = -1;
+
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(SIZE, ItemStack.EMPTY);
 
     private int growthProgress = 0;
@@ -47,6 +64,99 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
 
     public PlanterBlockEntity(BlockPos pos, BlockState blockState) {
         super(ATBlockEntities.PLANTER_BE, pos, blockState);
+    }
+
+    private void invalidateRecipeCache() {
+        cachedCropRecipe = null;
+        cachedTreeRecipe = null;
+        cachedSeedItem = null;
+        cachedRevision = -1;
+    }
+
+    @Nullable
+    private RecipeManager getRecipes() {
+        if (level instanceof ServerLevel serverLevel) return serverLevel.recipeAccess();
+        return null;
+    }
+
+    private void refreshRecipeCacheIfNeeded(ItemStack seed) {
+        if (seed.isEmpty()) {
+            invalidateRecipeCache();
+            return;
+        }
+        Item seedItem = seed.getItem();
+        if (seedItem == cachedSeedItem && cachedRevision == Agritech.RECIPE_REVISION) return;
+
+        invalidateRecipeCache();
+        RecipeManager rm = getRecipes();
+        if (rm == null) return;
+
+        cachedSeedItem = seedItem;
+        cachedRevision = Agritech.RECIPE_REVISION;
+        SingleRecipeInput input = new SingleRecipeInput(seed);
+
+        Optional<RecipeHolder<CropRecipe>> crop = rm.getRecipeFor(ATRecipeTypes.CROP_TYPE, input, level);
+        if (crop.isPresent()) { cachedCropRecipe = crop.get().value(); return; }
+
+        Optional<RecipeHolder<TreeRecipe>> tree = rm.getRecipeFor(ATRecipeTypes.TREE_TYPE, input, level);
+        tree.ifPresent(h -> cachedTreeRecipe = h.value());
+    }
+
+    private Optional<CropRecipe> findCropRecipe(ItemStack seed) {
+        if (seed.isEmpty()) return Optional.empty();
+        refreshRecipeCacheIfNeeded(seed);
+        return Optional.ofNullable(cachedCropRecipe);
+    }
+
+    private Optional<TreeRecipe> findTreeRecipe(ItemStack sapling) {
+        if (sapling.isEmpty()) return Optional.empty();
+        refreshRecipeCacheIfNeeded(sapling);
+        return Optional.ofNullable(cachedTreeRecipe);
+    }
+
+    public boolean isValidPlant(ItemStack stack) {
+        if (level == null) return false;
+        return findCropRecipe(stack).isPresent() || findTreeRecipe(stack).isPresent();
+    }
+
+    private Set<Item> getValidSoils() {
+        if (cachedValidSoils != null && soilCacheRevision == Agritech.RECIPE_REVISION) {
+            return cachedValidSoils;
+        }
+        RecipeManager rm = getRecipes();
+        if (rm == null) return Set.of();
+        Set<Item> soils = new HashSet<>();
+        for (RecipeHolder<?> holder : rm.getRecipes()) {
+            if (holder.value().getType() == ATRecipeTypes.CROP_TYPE) {
+                for (Ingredient ing : ((CropRecipe) holder.value()).getSoils()) {
+                    ing.items().map(Holder::value).forEach(soils::add);
+                }
+            } else if (holder.value().getType() == ATRecipeTypes.TREE_TYPE) {
+                for (Ingredient ing : ((TreeRecipe) holder.value()).getSoils()) {
+                    ing.items().map(Holder::value).forEach(soils::add);
+                }
+            }
+        }
+        cachedValidSoils = soils;
+        soilCacheRevision = Agritech.RECIPE_REVISION;
+        return cachedValidSoils;
+    }
+
+    public boolean isValidSoilForAnyRecipe(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        return getValidSoils().contains(stack.getItem());
+    }
+
+    public boolean isValidPlantSoilCombination(ItemStack plant, ItemStack soil) {
+        if (plant.isEmpty() || soil.isEmpty()) return false;
+        Optional<CropRecipe> crop = findCropRecipe(plant);
+        if (crop.isPresent()) return crop.get().matchesSoil(soil);
+        Optional<TreeRecipe> tree = findTreeRecipe(plant);
+        return tree.isPresent() && tree.get().matchesSoil(soil);
+    }
+
+    public boolean isTree() {
+        return findTreeRecipe(inventory.get(SLOT_PLANT)).isPresent();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, PlanterBlockEntity be) {
@@ -60,19 +170,16 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
             return;
         }
 
-        String plantId = RegistryHelper.getItemId(plantStack);
-        String soilId = RegistryHelper.getItemId(soilStack);
-
-        if (!be.isValidPlantSoilCombination(plantId, soilId)) {
+        if (!be.isValidPlantSoilCombination(plantStack, soilStack)) {
             be.resetGrowth();
             return;
         }
 
         if (!be.readyToHarvest) {
-            float soilMod = PlantablesConfig.getSoilGrowthModifier(soilId);
-            float fertMod = be.getFertilizerSpeedModifier();
+            float soilMod = be.getSoilGrowthModifier(soilStack);
+            float fertMod = be.getFertilizerGrowthModifier();
             float totalMod = soilMod * fertMod;
-            int baseTime = Config.planterBaseProcessingTime;
+            int baseTime = ATConfig.get().planterBaseProcessingTime;
             int adjustedTime = Math.max(1, Math.round(baseTime / totalMod));
 
             be.growthTicks++;
@@ -86,10 +193,11 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
             } else {
                 be.growthProgress = (int) ((float) be.growthTicks / adjustedTime * 100.0F);
                 int stage = be.getGrowthStage();
-                if (stage != be.lastGrowthStage) {
+                boolean stageChanged = stage != be.lastGrowthStage;
+                if (stageChanged) {
                     be.lastGrowthStage = stage;
                 }
-                if (be.growthTicks % 20 == 0) {
+                if (stageChanged || be.growthTicks % 10 == 0) {
                     level.sendBlockUpdated(pos, state, state, 3);
                     be.setChanged();
                 }
@@ -103,29 +211,24 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
         tryPushOutputBelow(level, pos, be);
     }
 
-    private float getFertilizerSpeedModifier() {
+    public float getSoilGrowthModifier(ItemStack soilStack) {
+        if (soilStack.isEmpty()) return 1.0F;
+        var data = ATDataMaps.getSoilModifier(soilStack.getItem());
+        return data != null ? data.growthModifier() : 1.0F;
+    }
+
+    private float getFertilizerGrowthModifier() {
         ItemStack stack = inventory.get(SLOT_FERTILIZER);
         if (stack.isEmpty()) return 1.0F;
-        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(RegistryHelper.getItemId(stack));
-        return info != null ? info.speedMultiplier : 1.0F;
+        var data = ATDataMaps.getFertilizer(stack.getItem());
+        return data != null ? data.speedMultiplier() : 1.0F;
     }
 
     private float getFertilizerYieldModifier() {
         ItemStack stack = inventory.get(SLOT_FERTILIZER);
         if (stack.isEmpty()) return 1.0F;
-        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(RegistryHelper.getItemId(stack));
-        return info != null ? info.yieldMultiplier : 1.0F;
-    }
-
-    private boolean isValidPlantSoilCombination(String plantId, String soilId) {
-        if (PlantablesConfig.isValidSeed(plantId)) return PlantablesConfig.isSoilValidForSeed(soilId, plantId);
-        if (PlantablesConfig.isValidSapling(plantId)) return PlantablesConfig.isSoilValidForSapling(soilId, plantId);
-        return false;
-    }
-
-    private boolean isTree() {
-        ItemStack s = inventory.get(SLOT_PLANT);
-        return !s.isEmpty() && PlantablesConfig.isValidSapling(RegistryHelper.getItemId(s));
+        var data = ATDataMaps.getFertilizer(stack.getItem());
+        return data != null ? data.yieldMultiplier() : 1.0F;
     }
 
     private void resetGrowth() {
@@ -177,8 +280,8 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
         ItemStack soilStack = inventory.get(SLOT_SOIL);
         if (plantStack.isEmpty() || soilStack.isEmpty()) return;
 
-        float soilMod = PlantablesConfig.getSoilGrowthModifier(RegistryHelper.getItemId(soilStack));
-        int adjustedTime = Math.max(1, Math.round(Config.planterBaseProcessingTime / soilMod));
+        float soilMod = getSoilGrowthModifier(soilStack);
+        int adjustedTime = Math.max(1, Math.round(ATConfig.get().planterBaseProcessingTime / soilMod));
 
         int boost = Math.max(1, Math.round(adjustedTime * 0.25F * speedMultiplier));
         growthTicks = Math.min(adjustedTime, growthTicks + boost);
@@ -213,21 +316,23 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
         List<ItemStack> drops = new ArrayList<>();
         if (plantStack.isEmpty()) return drops;
 
-        String plantId = RegistryHelper.getItemId(plantStack);
-        List<PlantablesConfig.DropInfo> configDrops;
-
-        if (PlantablesConfig.isValidSeed(plantId)) configDrops = PlantablesConfig.getCropDrops(plantId);
-        else if (PlantablesConfig.isValidSapling(plantId)) configDrops = PlantablesConfig.getTreeDrops(plantId);
-        else return drops;
+        List<DropEntry> entries;
+        Optional<CropRecipe> crop = findCropRecipe(plantStack);
+        if (crop.isPresent()) {
+            entries = crop.get().getDrops();
+        } else {
+            Optional<TreeRecipe> tree = findTreeRecipe(plantStack);
+            if (tree.isEmpty()) return drops;
+            entries = tree.get().getDrops();
+        }
 
         Random rng = new Random();
-        for (PlantablesConfig.DropInfo info : configDrops) {
-            if (rng.nextFloat() <= info.chance) {
-                int count = info.maxCount > info.minCount
-                        ? info.minCount + rng.nextInt(info.maxCount - info.minCount + 1)
-                        : info.minCount;
-                Item item = RegistryHelper.getItem(info.item);
-                if (item != null) drops.add(new ItemStack(item, count));
+        for (DropEntry entry : entries) {
+            if (rng.nextFloat() <= entry.chance()) {
+                int count = entry.max() > entry.min()
+                        ? entry.min() + rng.nextInt(entry.max() - entry.min() + 1)
+                        : entry.min();
+                drops.add(new ItemStack(entry.item(), count));
             }
         }
         return drops;
@@ -338,8 +443,6 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
         Containers.dropContents(level, worldPosition, this);
     }
 
-    // --- WorldlyContainer ---
-
     @Override
     public int[] getSlotsForFace(Direction side) {
         if (side == Direction.DOWN) {
@@ -354,7 +457,7 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
     @Override
     public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction side) {
         if (side == null || !side.getAxis().isHorizontal()) return false;
-        return slot == SLOT_FERTILIZER && PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(stack));
+        return slot == SLOT_FERTILIZER && ATDataMaps.getFertilizer(stack.getItem()) != null;
     }
 
     @Override
@@ -405,16 +508,13 @@ public class PlanterBlockEntity extends BlockEntity implements WorldlyContainer,
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
-        String id = RegistryHelper.getItemId(stack);
         return switch (slot) {
-            case SLOT_PLANT -> PlantablesConfig.isValidSeed(id) || PlantablesConfig.isValidSapling(id);
-            case SLOT_SOIL -> PlantablesConfig.isValidSoil(id);
-            case SLOT_FERTILIZER -> PlantablesConfig.isValidFertilizer(id);
+            case SLOT_PLANT -> isValidPlant(stack);
+            case SLOT_SOIL -> isValidSoilForAnyRecipe(stack);
+            case SLOT_FERTILIZER -> ATDataMaps.getFertilizer(stack.getItem()) != null;
             default -> false;
         };
     }
-
-    // --- Serialization ---
 
     @Override
     protected void saveAdditional(ValueOutput output) {

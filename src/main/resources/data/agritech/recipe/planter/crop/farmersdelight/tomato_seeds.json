@@ -1,0 +1,23 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
+  "type": "agritech:crop",
+  "seed": "farmersdelight:tomato_seeds",
+  "soils": [
+    "#agritech:farmland_soils"
+  ],
+  "drops": [
+    {
+      "item": "farmersdelight:tomato",
+      "min": 1,
+      "max": 2,
+      "chance": 1.0
+    }
+  ]
+}

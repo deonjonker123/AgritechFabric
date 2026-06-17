@@ -1,0 +1,8 @@
+{
+  "values": [
+    "minecraft:mycelium",
+    "minecraft:podzol",
+    {"id":"farmersdelight:rich_soil", "required": false},
+    {"id":"farmersdelight:organic_compost", "required": false}
+  ]
+}

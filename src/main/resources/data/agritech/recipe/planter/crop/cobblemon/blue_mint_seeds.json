@@ -1,0 +1,23 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "cobblemon"
+      ]
+    }
+  ],
+  "type": "agritech:crop",
+  "seed": "cobblemon:blue_mint_seeds",
+  "soils": [
+    "#agritech:farmland_soils"
+  ],
+  "drops": [
+    {
+      "item": "cobblemon:blue_mint_leaf",
+      "min": 1,
+      "max": 4,
+      "chance": 1.0
+    }
+  ]
+}

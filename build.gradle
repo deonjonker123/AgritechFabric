@@ -18,6 +18,10 @@ repositories {
 	maven {
 		url = "https://api.modrinth.com/maven"
 	}
+	maven {
+		name = "Terraformers"
+		url = "https://maven.terraformersmc.com/"
+	}
 }
 
 fabricApi {
@@ -35,6 +39,9 @@ dependencies {
 	runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
 
 	implementation "maven.modrinth:jade:${project.jade_version}"
+
+	implementation "maven.modrinth:cloth-config:${project.cloth_config_version}"
+	implementation "maven.modrinth:modmenu:${project.modmenu_version}"
 }
 
 processResources {

@@ -1,9 +1,7 @@
 package com.misterd.agritech.compat.jade;
 
 import com.misterd.agritech.blockentity.custom.RaisedBedBlockEntity;
-import com.misterd.agritech.config.Config;
-import com.misterd.agritech.config.PlantablesConfig;
-import com.misterd.agritech.util.RegistryHelper;
+import com.misterd.agritech.config.ATConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
@@ -44,11 +42,11 @@ public enum RaisedBedProvider implements IServerDataProvider<BlockAccessor> {
         data.putBoolean("hasCrop", true);
         data.putString("cropName", seedStack.getDisplayName().getString());
         data.putInt("currentStage", bed.getGrowthStage());
-        data.putInt("maxStage", PlantablesConfig.isValidSapling(RegistryHelper.getItemId(seedStack)) ? 1 : 8);
+        data.putInt("maxStage", bed.isTree() ? 1 : 8);
         data.putFloat("progressPercent", bed.getGrowthProgress() * 100.0F);
         data.putString("soilName", soilStack.getDisplayName().getString());
-        data.putFloat("growthModifier", PlantablesConfig.getSoilGrowthModifier(RegistryHelper.getItemId(soilStack)));
+        data.putFloat("growthModifier", bed.getSoilGrowthModifier(soilStack));
         data.putBoolean("hasSkyBoost", hasSkyBoost);
-        data.putFloat("skyBoostModifier", (float) Config.raisedBedSkyDaySpeedMultiplier);
+        data.putFloat("skyBoostModifier", (float) ATConfig.get().raisedBedSkyDaySpeedMultiplier);
     }
 }

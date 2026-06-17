@@ -1,8 +1,7 @@
 package com.misterd.agritech.compat.jade;
 
 import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritech.config.PlantablesConfig;
-import com.misterd.agritech.util.RegistryHelper;
+import com.misterd.agritech.datamap.ATDataMaps;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -40,19 +39,18 @@ public enum PlanterProvider implements IServerDataProvider<BlockAccessor> {
         data.putBoolean("hasCrop", true);
         data.putString("cropName", seedStack.getDisplayName().getString());
         data.putInt("currentStage", planter.getGrowthStage());
-        data.putInt("maxStage", PlantablesConfig.isValidSapling(RegistryHelper.getItemId(seedStack)) ? 1 : 8);
+        data.putInt("maxStage", planter.isTree() ? 1 : 8);
         data.putFloat("progressPercent", planter.getGrowthProgress() * 100.0F);
         data.putString("soilName", soilStack.getDisplayName().getString());
-        data.putFloat("growthModifier", PlantablesConfig.getSoilGrowthModifier(RegistryHelper.getItemId(soilStack)));
+        data.putFloat("growthModifier", planter.getSoilGrowthModifier(soilStack));
 
         ItemStack fertStack = planter.getItem(PlanterBlockEntity.SLOT_FERTILIZER);
         if (!fertStack.isEmpty()) {
-            String fertId = RegistryHelper.getItemId(fertStack);
-            PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertId);
+            var fertData = ATDataMaps.getFertilizer(fertStack.getItem());
             data.putBoolean("hasFertilizer", true);
             data.putString("fertilizerName", fertStack.getDisplayName().getString());
-            data.putFloat("fertilizerSpeedModifier", info != null ? info.speedMultiplier : 1.0F);
-            data.putFloat("fertilizerYieldModifier", info != null ? info.yieldMultiplier : 1.0F);
+            data.putFloat("fertilizerSpeedModifier", fertData != null ? fertData.speedMultiplier() : 1.0F);
+            data.putFloat("fertilizerYieldModifier", fertData != null ? fertData.yieldMultiplier() : 1.0F);
         } else {
             data.putBoolean("hasFertilizer", false);
         }

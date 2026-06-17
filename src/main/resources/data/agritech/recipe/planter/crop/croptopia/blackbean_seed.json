@@ -1,0 +1,29 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "croptopia"
+      ]
+    }
+  ],
+  "type": "agritech:crop",
+  "seed": "croptopia:blackbean_seed",
+  "soils": [
+    "#agritech:farmland_soils"
+  ],
+  "drops": [
+    {
+      "item": "croptopia:blackbean",
+      "min": 2,
+      "max": 4,
+      "chance": 1.0
+    },
+    {
+      "item": "croptopia:blackbean_seed",
+      "min": 1,
+      "max": 1,
+      "chance": 0.2
+    }
+  ]
+}

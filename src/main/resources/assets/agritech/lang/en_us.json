@@ -73,5 +73,19 @@
 
   "jei.agritech.planter.tooltip": "Agritech Planters",
   "jei.agritech.raised_bed.tooltip": "Agritech Raised Beds",
-  "jei.agritech.raised_bed.drops_on_ground": "Dropped in world"
+  "jei.agritech.raised_bed.drops_on_ground": "Dropped in world",
+
+  "tooltip.agritech.soil_type": "Soil Info",
+  "tooltip.agritech.soil_growth_modifier": "Growth Speed: %s",
+  "tooltip.agritech.fertilizer_type": "Fertilizer Info",
+  "tooltip.agritech.fertilizer_speed": "Growth Speed: %s",
+  "tooltip.agritech.fertilizer_yield": "Yield Bonus: %s",
+
+  "text.autoconfig.agritech.title": "Agritech Configuration",
+  "text.autoconfig.agritech.option.planterBaseProcessingTime": "Planter & Raised Bed Base Processing Time",
+  "text.autoconfig.agritech.option.planterBaseProcessingTime.@Tooltip": "Base number of ticks (20 ticks = 1 second) a planter or Raised Bed takes to grow a crop or tree, before any speed modifiers are applied.",
+  "text.autoconfig.agritech.option.raisedBedSkyDaySpeedMultiplier": "Raised Bed Sky/Day Speed Multiplier",
+  "text.autoconfig.agritech.option.raisedBedSkyDaySpeedMultiplier.@Tooltip": "Growth speed multiplier applied to a raised bed when it can see the sky during the day.",
+  "text.autoconfig.agritech.option.cratePickupIntervalTicks": "Crate Pickup Interval",
+  "text.autoconfig.agritech.option.cratePickupIntervalTicks.@Tooltip": "How often, in ticks (20 ticks = 1 second), a crate checks for and picks up nearby items."
 }

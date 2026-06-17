@@ -1,0 +1,45 @@
+{
+  "values": {
+    "minecraft:dirt": { "growth_modifier": 0.475 },
+    "minecraft:coarse_dirt": { "growth_modifier": 0.475 },
+    "minecraft:podzol": { "growth_modifier": 0.475 },
+    "minecraft:mycelium": { "growth_modifier": 0.475 },
+    "minecraft:rooted_dirt": { "growth_modifier": 0.475 },
+    "minecraft:moss_block": { "growth_modifier": 0.475 },
+    "minecraft:pale_moss_block": { "growth_modifier": 0.475 },
+    "minecraft:grass_block": { "growth_modifier": 0.475 },
+    "minecraft:mud": { "growth_modifier": 0.5 },
+    "minecraft:muddy_mangrove_roots": { "growth_modifier": 0.5 },
+    "minecraft:farmland": { "growth_modifier": 0.5 },
+    "minecraft:sand": { "growth_modifier": 0.5 },
+    "minecraft:red_sand": { "growth_modifier": 0.5 },
+    "minecraft:soul_sand": { "growth_modifier": 0.5 },
+    "minecraft:end_stone": { "growth_modifier": 0.5 },
+    "minecraft:jungle_log": { "growth_modifier": 0.5 },
+    "minecraft:jungle_wood": { "growth_modifier": 0.5 },
+    "minecraft:stripped_jungle_log": { "growth_modifier": 0.5 },
+    "minecraft:stripped_jungle_wood": { "growth_modifier": 0.5 },
+    "minecraft:water_bucket": { "growth_modifier": 0.5 },
+    "minecraft:crimson_nylium": { "growth_modifier": 0.6 },
+    "minecraft:warped_nylium": { "growth_modifier": 0.6 },
+    "minecraft:stone": { "growth_modifier": 0.6 },
+    "farmersdelight:rich_soil": {
+      "growth_modifier": 0.525,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["farmersdelight"] }
+      ]
+    },
+    "farmersdelight:rich_soil_farmland": {
+      "growth_modifier": 0.525,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["farmersdelight"] }
+      ]
+    },
+    "farmersdelight:organic_compost": {
+      "growth_modifier": 0.525,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["farmersdelight"] }
+      ]
+    }
+  }
+}

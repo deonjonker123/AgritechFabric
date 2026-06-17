@@ -1,7 +1,7 @@
 package com.misterd.agritech.blockentity.custom;
 
 import com.misterd.agritech.blockentity.ATBlockEntities;
-import com.misterd.agritech.config.Config;
+import com.misterd.agritech.config.ATConfig;
 import com.misterd.agritech.gui.custom.CrateMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -57,7 +57,7 @@ public class CrateBlockEntity extends BlockEntity implements Container, MenuProv
         if (!be.collecting) return;
 
         be.tickCounter++;
-        if (be.tickCounter < Config.basketPickupIntervalTicks) return;
+        if (be.tickCounter < ATConfig.get().cratePickupIntervalTicks) return;
         be.tickCounter = 0;
 
         int radius = 2;

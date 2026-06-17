@@ -1,7 +1,7 @@
 package com.misterd.agritech.compat.jei;
 
 import com.misterd.agritech.block.ATBlocks;
-import com.misterd.agritech.config.PlantablesConfig;
+import com.misterd.agritech.recipe.DropEntry;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
@@ -59,32 +59,33 @@ public class PlanterRecipeCategory implements IRecipeCategory<PlanterRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, PlanterRecipe recipe, IFocusGroup focuses) {
-        IRecipeSlotBuilder seedSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 10);
-        seedSlot.addIngredients(VanillaTypes.ITEM_STACK, recipe.getPlantableIngredient().items().map(h -> new ItemStack(h.value())).toList());
+        IRecipeSlotBuilder plantSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 10);
+        recipe.getPlant().items().map(h -> new ItemStack(h.value())).forEach(plantSlot::add);
 
         IRecipeSlotBuilder soilSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 46);
-        soilSlot.addIngredients(VanillaTypes.ITEM_STACK, recipe.getSoilIngredient().items().map(h -> new ItemStack(h.value())).toList());
+        for (var soilIngredient : recipe.getSoils()) {
+            soilIngredient.items().map(h -> new ItemStack(h.value())).forEach(soilSlot::add);
+        }
 
-        List<PlantablesConfig.DropInfo> dropInfos = recipe.getDropInfos();
+        List<DropEntry> drops = recipe.getDrops();
         int outputIndex = 0;
         for (ItemStack output : recipe.getOutputs()) {
             if (outputIndex >= 12) break;
             int x = 52 + outputIndex % 4 * 18;
             int y = 10 + outputIndex / 4 * 18;
 
-            final PlantablesConfig.DropInfo info = outputIndex < dropInfos.size() ? dropInfos.get(outputIndex) : null;
+            final DropEntry entry = outputIndex < drops.size() ? drops.get(outputIndex) : null;
 
             var slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).add(output);
 
-            if (info != null) {
+            if (entry != null) {
                 slot.addRichTooltipCallback((slotView, tooltip) -> {
-                    String countStr = info.minCount == info.maxCount
-                            ? String.valueOf(info.minCount)
-                            : info.minCount + "–" + info.maxCount;
+                    String countStr = entry.min() == entry.max()
+                            ? String.valueOf(entry.min())
+                            : entry.min() + "–" + entry.max();
                     tooltip.add(Component.literal("Count: " + countStr).withStyle(ChatFormatting.GRAY));
-
-                    if (info.chance < 1.0F) {
-                        tooltip.add(Component.literal(String.format("%.0f%% chance", info.chance * 100))
+                    if (entry.chance() < 1.0F) {
+                        tooltip.add(Component.literal(String.format("%.0f%% chance", entry.chance() * 100))
                                 .withStyle(ChatFormatting.GOLD));
                     }
                 });

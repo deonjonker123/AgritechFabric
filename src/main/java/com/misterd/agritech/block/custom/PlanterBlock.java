@@ -2,7 +2,7 @@ package com.misterd.agritech.block.custom;
 
 import com.misterd.agritech.blockentity.ATBlockEntities;
 import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritech.config.PlantablesConfig;
+import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.custom.PlanterMenu;
 import com.misterd.agritech.mixin.HoeItemAccessor;
 import com.misterd.agritech.util.RegistryHelper;
@@ -113,19 +113,18 @@ public class PlanterBlock extends BaseEntityBlock {
         if (!(level.getBlockEntity(pos) instanceof PlanterBlockEntity planter)) return InteractionResult.FAIL;
 
         ItemStack heldItem = player.getItemInHand(hand);
-        String heldItemId = RegistryHelper.getItemId(heldItem);
 
         if (player.isCrouching()) {
             return handleCrouchOpen(level, pos, player, planter);
         }
-        if (PlantablesConfig.isValidSeed(heldItemId) || PlantablesConfig.isValidSapling(heldItemId)) {
-            return handlePlantInsert(state, level, pos, player, planter, heldItem, heldItemId);
+        if (planter.isValidPlant(heldItem)) {
+            return handlePlantInsert(state, level, pos, player, planter, heldItem);
         }
-        if (PlantablesConfig.isValidSoil(heldItemId)) {
-            return handleSoilInsert(state, level, pos, player, planter, heldItem, heldItemId);
+        if (planter.isValidSoilForAnyRecipe(heldItem)) {
+            return handleSoilInsert(state, level, pos, player, planter, heldItem);
         }
-        if (PlantablesConfig.isValidFertilizer(heldItemId)) {
-            return handleFertilizer(state, level, pos, player, planter, heldItem, heldItemId);
+        if (isFertilizer(heldItem)) {
+            return handleFertilizer(state, level, pos, player, planter, heldItem);
         }
         if (heldItem.getItem() instanceof HoeItem) {
             return handleHoeTill(state, level, pos, player, planter, heldItem, hand, hitResult);
@@ -135,12 +134,16 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
+    private static boolean isFertilizer(ItemStack stack) {
+        return !stack.isEmpty() && ATDataMaps.getFertilizer(stack.getItem()) != null;
+    }
+
     private InteractionResult handleCrouchOpen(Level level, BlockPos pos, Player player, PlanterBlockEntity planter) {
         if (!level.isClientSide()) openGui(player, planter, pos);
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem) {
         if (!planter.getItem(PlanterBlockEntity.SLOT_PLANT).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -148,15 +151,9 @@ public class PlanterBlock extends BaseEntityBlock {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
 
         ItemStack existingSoil = planter.getItem(PlanterBlockEntity.SLOT_SOIL);
-        if (!existingSoil.isEmpty()) {
-            String soilId = RegistryHelper.getItemId(existingSoil);
-            boolean valid = PlantablesConfig.isValidSeed(heldItemId)
-                    ? PlantablesConfig.isSoilValidForSeed(soilId, heldItemId)
-                    : PlantablesConfig.isSoilValidForSapling(soilId, heldItemId);
-            if (!valid) {
-                player.sendOverlayMessage(Component.translatable("message.agritech.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
-                return InteractionResult.SUCCESS;
-            }
+        if (!existingSoil.isEmpty() && !planter.isValidPlantSoilCombination(heldItem, existingSoil)) {
+            player.sendOverlayMessage(Component.translatable("message.agritech.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
+            return InteractionResult.SUCCESS;
         }
 
         planter.setItem(PlanterBlockEntity.SLOT_PLANT, heldItem.copyWithCount(1));
@@ -167,7 +164,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem) {
         if (!planter.getItem(PlanterBlockEntity.SLOT_SOIL).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -175,15 +172,9 @@ public class PlanterBlock extends BaseEntityBlock {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
 
         ItemStack existingPlant = planter.getItem(PlanterBlockEntity.SLOT_PLANT);
-        if (!existingPlant.isEmpty()) {
-            String plantId = RegistryHelper.getItemId(existingPlant);
-            boolean valid = PlantablesConfig.isValidSeed(plantId)
-                    ? PlantablesConfig.isSoilValidForSeed(heldItemId, plantId)
-                    : PlantablesConfig.isSoilValidForSapling(heldItemId, plantId);
-            if (!valid) {
-                player.sendOverlayMessage(Component.translatable("message.agritech.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
-                return InteractionResult.SUCCESS;
-            }
+        if (!existingPlant.isEmpty() && !planter.isValidPlantSoilCombination(existingPlant, heldItem)) {
+            player.sendOverlayMessage(Component.translatable("message.agritech.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
+            return InteractionResult.SUCCESS;
         }
 
         planter.setItem(PlanterBlockEntity.SLOT_SOIL, heldItem.copyWithCount(1));
@@ -194,7 +185,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem) {
         if (planter.getItem(PlanterBlockEntity.SLOT_PLANT).isEmpty()
                 || planter.getItem(PlanterBlockEntity.SLOT_SOIL).isEmpty()
                 || planter.isReadyToHarvest()) {
@@ -202,9 +193,9 @@ public class PlanterBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
         if (!level.isClientSide()) {
-            PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(heldItemId);
-            if (info != null) {
-                planter.applyManualFertilizer(info.speedMultiplier);
+            var data = ATDataMaps.getFertilizer(heldItem.getItem());
+            if (data != null) {
+                planter.applyManualFertilizer(data.speedMultiplier());
                 if (!player.getAbilities().instabuild) heldItem.shrink(1);
                 level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (level instanceof ServerLevel serverLevel) {

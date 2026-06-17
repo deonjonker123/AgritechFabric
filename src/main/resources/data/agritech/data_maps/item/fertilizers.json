@@ -1,0 +1,5 @@
+{
+  "values": {
+    "minecraft:bone_meal": { "speed_multiplier": 1.2, "yield_multiplier": 1.2 }
+  }
+}

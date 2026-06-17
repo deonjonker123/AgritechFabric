@@ -1,7 +1,7 @@
 package com.misterd.agritech.compat.jei;
 
 import com.misterd.agritech.block.ATBlocks;
-import com.misterd.agritech.config.PlantablesConfig;
+import com.misterd.agritech.recipe.DropEntry;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -9,7 +9,6 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
@@ -30,7 +29,7 @@ public class RaisedBedRecipeCategory implements IRecipeCategory<RaisedBedRecipe>
     private final IDrawable icon;
 
     public RaisedBedRecipeCategory(IGuiHelper guiHelper) {
-        this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 162, 45);
+        this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 162, 63);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ATBlocks.OAK_RAISED_BED));
     }
 
@@ -56,37 +55,38 @@ public class RaisedBedRecipeCategory implements IRecipeCategory<RaisedBedRecipe>
 
     @Override
     public int getHeight() {
-        return 45;
+        return 63;
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, RaisedBedRecipe recipe, IFocusGroup focuses) {
-        var seedSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 19);
-        seedSlot.addIngredients(VanillaTypes.ITEM_STACK, recipe.getPlantableIngredient().items().map(h -> new ItemStack(h.value())).toList());
+        var plantSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 28);
+        recipe.getPlant().items().map(h -> new ItemStack(h.value())).forEach(plantSlot::add);
 
-        var soilSlot = builder.addSlot(RecipeIngredientRole.INPUT, 46, 19);
-        soilSlot.addIngredients(VanillaTypes.ITEM_STACK, recipe.getSoilIngredient().items().map(h -> new ItemStack(h.value())).toList());
+        var soilSlot = builder.addSlot(RecipeIngredientRole.INPUT, 46, 28);
+        for (var soilIngredient : recipe.getSoils()) {
+            soilIngredient.items().map(h -> new ItemStack(h.value())).forEach(soilSlot::add);
+        }
 
-        List<PlantablesConfig.DropInfo> dropInfos = recipe.getDropInfos();
+        List<DropEntry> drops = recipe.getDrops();
         int outputIndex = 0;
         for (ItemStack output : recipe.getOutputs()) {
-            if (outputIndex >= 4) break;
+            if (outputIndex >= 8) break;
             int x = 82 + outputIndex % 4 * 18;
             int y = 19 + outputIndex / 4 * 18;
 
-            final PlantablesConfig.DropInfo info = outputIndex < dropInfos.size() ? dropInfos.get(outputIndex) : null;
+            final DropEntry entry = outputIndex < drops.size() ? drops.get(outputIndex) : null;
 
             var slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).add(output);
 
-            if (info != null) {
+            if (entry != null) {
                 slot.addRichTooltipCallback((slotView, tooltip) -> {
-                    String countStr = info.minCount == info.maxCount
-                            ? String.valueOf(info.minCount)
-                            : info.minCount + "–" + info.maxCount;
+                    String countStr = entry.min() == entry.max()
+                            ? String.valueOf(entry.min())
+                            : entry.min() + "–" + entry.max();
                     tooltip.add(Component.literal("Count: " + countStr).withStyle(ChatFormatting.GRAY));
-
-                    if (info.chance < 1.0F) {
-                        tooltip.add(Component.literal(String.format("%.0f%% chance", info.chance * 100))
+                    if (entry.chance() < 1.0F) {
+                        tooltip.add(Component.literal(String.format("%.0f%% chance", entry.chance() * 100))
                                 .withStyle(ChatFormatting.GOLD));
                     }
                 });
@@ -101,7 +101,6 @@ public class RaisedBedRecipeCategory implements IRecipeCategory<RaisedBedRecipe>
         background.draw(guiGraphics);
 
         Font font = Minecraft.getInstance().font;
-        List<PlantablesConfig.DropInfo> drops = recipe.getDropInfos();
 
         guiGraphics.pose().pushMatrix();
         guiGraphics.pose().translate(81, 8);

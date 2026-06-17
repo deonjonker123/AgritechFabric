@@ -1,11 +1,8 @@
 package com.misterd.agritech.gui.custom;
 
 import com.misterd.agritech.blockentity.custom.RaisedBedBlockEntity;
-import com.misterd.agritech.config.PlantablesConfig;
 import com.misterd.agritech.gui.ATMenuTypes;
-import com.misterd.agritech.util.RegistryHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -42,37 +39,22 @@ public class RaisedBedMenu extends AbstractContainerMenu {
 
         ItemStack stack = source.getItem();
         ItemStack copy = stack.copy();
-        String itemId = RegistryHelper.getItemId(stack);
 
         if (index >= 2) {
-            if (PlantablesConfig.isValidSeed(itemId) || PlantablesConfig.isValidSapling(itemId)) {
-                if (blockEntity.getItem(RaisedBedBlockEntity.SLOT_PLANT).isEmpty()) {
-                    ItemStack existingSoil = blockEntity.getItem(RaisedBedBlockEntity.SLOT_SOIL);
-                    if (!existingSoil.isEmpty()) {
-                        String soilId = RegistryHelper.getItemId(existingSoil);
-                        boolean valid = PlantablesConfig.isValidSeed(itemId)
-                                ? PlantablesConfig.isSoilValidForSeed(soilId, itemId)
-                                : PlantablesConfig.isSoilValidForSapling(soilId, itemId);
-                        if (!valid) return ItemStack.EMPTY;
-                    }
-                    blockEntity.setItem(RaisedBedBlockEntity.SLOT_PLANT, stack.copyWithCount(1));
-                    stack.shrink(1);
-                    return copy;
-                }
-            } else if (PlantablesConfig.isValidSoil(itemId)) {
-                if (blockEntity.getItem(RaisedBedBlockEntity.SLOT_SOIL).isEmpty()) {
-                    ItemStack existingPlant = blockEntity.getItem(RaisedBedBlockEntity.SLOT_PLANT);
-                    if (!existingPlant.isEmpty()) {
-                        String plantId = RegistryHelper.getItemId(existingPlant);
-                        boolean valid = PlantablesConfig.isValidSeed(plantId)
-                                ? PlantablesConfig.isSoilValidForSeed(itemId, plantId)
-                                : PlantablesConfig.isSoilValidForSapling(itemId, plantId);
-                        if (!valid) return ItemStack.EMPTY;
-                    }
-                    blockEntity.setItem(RaisedBedBlockEntity.SLOT_SOIL, stack.copyWithCount(1));
-                    stack.shrink(1);
-                    return copy;
-                }
+            if (blockEntity.isValidPlant(stack) && blockEntity.getItem(RaisedBedBlockEntity.SLOT_PLANT).isEmpty()) {
+                ItemStack existingSoil = blockEntity.getItem(RaisedBedBlockEntity.SLOT_SOIL);
+                if (!existingSoil.isEmpty() && !blockEntity.isValidPlantSoilCombination(stack, existingSoil))
+                    return ItemStack.EMPTY;
+                blockEntity.setItem(RaisedBedBlockEntity.SLOT_PLANT, stack.copyWithCount(1));
+                stack.shrink(1);
+                return copy;
+            } else if (blockEntity.isValidSoilForAnyRecipe(stack) && blockEntity.getItem(RaisedBedBlockEntity.SLOT_SOIL).isEmpty()) {
+                ItemStack existingPlant = blockEntity.getItem(RaisedBedBlockEntity.SLOT_PLANT);
+                if (!existingPlant.isEmpty() && !blockEntity.isValidPlantSoilCombination(existingPlant, stack))
+                    return ItemStack.EMPTY;
+                blockEntity.setItem(RaisedBedBlockEntity.SLOT_SOIL, stack.copyWithCount(1));
+                stack.shrink(1);
+                return copy;
             }
             return ItemStack.EMPTY;
         } else {

@@ -1,0 +1,17 @@
+{
+  "values": [
+    "minecraft:farmland",
+    "minecraft:grass_block",
+    "minecraft:dirt",
+    "minecraft:coarse_dirt",
+    "minecraft:rooted_dirt",
+    "minecraft:mycelium",
+    "minecraft:podzol",
+    "minecraft:mud",
+    "minecraft:muddy_mangrove_roots",
+    "minecraft:moss_block",
+    "minecraft:pale_moss_block",
+    {"id":"farmersdelight:rich_soil", "required": false},
+    {"id":"farmersdelight:rich_soil_farmland","required": false}
+  ]
+}
