@@ -27,7 +27,11 @@ public record CrateCollectionTogglePacket(BlockPos pos, boolean collecting) impl
     }
 
     public static void handle(CrateCollectionTogglePacket packet, ServerPlayer player) {
-        if (player.distanceToSqr(packet.pos().getCenter()) > 64) return;
+        BlockPos pos = packet.pos();
+        double centerX = pos.getX() + 0.5;
+        double centerY = pos.getY() + 0.5;
+        double centerZ = pos.getZ() + 0.5;
+        if (player.distanceToSqr(centerX, centerY, centerZ) > 64) return;
         if (!(player.level().getBlockEntity(packet.pos()) instanceof CrateBlockEntity crate)) return;
         crate.setCollecting(packet.collecting());
     }

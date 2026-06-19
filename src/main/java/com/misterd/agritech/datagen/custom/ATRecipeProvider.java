@@ -22,7 +22,6 @@ public class ATRecipeProvider extends FabricRecipeProvider {
         return new RecipeProvider(provider, recipeOutput) {
             @Override
             public void buildRecipes() {
-                // Planters
                 shaped(RecipeCategory.MISC, ATBlocks.ACACIA_PLANTER)
                         .pattern("P P").pattern("PDP").pattern("LHL")
                         .define('P', Items.ACACIA_PLANKS).define('L', Items.ACACIA_LOG)
@@ -169,7 +168,6 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .define('P', Items.WARPED_PLANKS).define('D', Items.WARPED_SLAB)
                         .unlockedBy("has_warped_planks", has(Items.WARPED_PLANKS)).save(output);
 
-                // Crates
                 shaped(RecipeCategory.MISC, ATBlocks.ACACIA_CRATE)
                         .pattern("P P").pattern("PCP").pattern("PSP")
                         .define('P', Items.ACACIA_PLANKS).define('C', Items.CHEST)

@@ -15,3 +15,6 @@ All notable changes to this project will be documented here.
 - Compatibility layer is now fully data-driven. Seeds, saplings, soils, fertilizers and their values are defined via recipes and datamaps — fully packdev-accessible via datapacks or KubeJS.
 ### Added
 - Tooltip injection on all valid soil blocks and fertilizers showing their planter growth modifiers
+
+## [2.0.0+neoforge-mc26.2] - 2026-06-19
+- Port to 26.2

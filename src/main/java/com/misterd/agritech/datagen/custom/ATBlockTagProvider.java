@@ -4,7 +4,9 @@ import com.misterd.agritech.block.ATBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -13,46 +15,50 @@ public class ATBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
         super(output, registryLookupFuture);
     }
 
+    private static ResourceKey<Block> key(Block block) {
+        return block.builtInRegistryHolder().key();
+    }
+
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        valueLookupBuilder(BlockTags.MINEABLE_WITH_AXE)
-                .add(ATBlocks.ACACIA_PLANTER)
-                .add(ATBlocks.BAMBOO_PLANTER)
-                .add(ATBlocks.BIRCH_PLANTER)
-                .add(ATBlocks.CHERRY_PLANTER)
-                .add(ATBlocks.CRIMSON_PLANTER)
-                .add(ATBlocks.DARK_OAK_PLANTER)
-                .add(ATBlocks.JUNGLE_PLANTER)
-                .add(ATBlocks.MANGROVE_PLANTER)
-                .add(ATBlocks.OAK_PLANTER)
-                .add(ATBlocks.PALE_OAK_PLANTER)
-                .add(ATBlocks.SPRUCE_PLANTER)
-                .add(ATBlocks.WARPED_PLANTER)
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(key(ATBlocks.ACACIA_PLANTER))
+                .add(key(ATBlocks.BAMBOO_PLANTER))
+                .add(key(ATBlocks.BIRCH_PLANTER))
+                .add(key(ATBlocks.CHERRY_PLANTER))
+                .add(key(ATBlocks.CRIMSON_PLANTER))
+                .add(key(ATBlocks.DARK_OAK_PLANTER))
+                .add(key(ATBlocks.JUNGLE_PLANTER))
+                .add(key(ATBlocks.MANGROVE_PLANTER))
+                .add(key(ATBlocks.OAK_PLANTER))
+                .add(key(ATBlocks.PALE_OAK_PLANTER))
+                .add(key(ATBlocks.SPRUCE_PLANTER))
+                .add(key(ATBlocks.WARPED_PLANTER))
 
-                .add(ATBlocks.ACACIA_RAISED_BED)
-                .add(ATBlocks.BAMBOO_RAISED_BED)
-                .add(ATBlocks.BIRCH_RAISED_BED)
-                .add(ATBlocks.CHERRY_RAISED_BED)
-                .add(ATBlocks.CRIMSON_RAISED_BED)
-                .add(ATBlocks.DARK_OAK_RAISED_BED)
-                .add(ATBlocks.JUNGLE_RAISED_BED)
-                .add(ATBlocks.MANGROVE_RAISED_BED)
-                .add(ATBlocks.OAK_RAISED_BED)
-                .add(ATBlocks.PALE_OAK_RAISED_BED)
-                .add(ATBlocks.SPRUCE_RAISED_BED)
-                .add(ATBlocks.WARPED_RAISED_BED)
+                .add(key(ATBlocks.ACACIA_RAISED_BED))
+                .add(key(ATBlocks.BAMBOO_RAISED_BED))
+                .add(key(ATBlocks.BIRCH_RAISED_BED))
+                .add(key(ATBlocks.CHERRY_RAISED_BED))
+                .add(key(ATBlocks.CRIMSON_RAISED_BED))
+                .add(key(ATBlocks.DARK_OAK_RAISED_BED))
+                .add(key(ATBlocks.JUNGLE_RAISED_BED))
+                .add(key(ATBlocks.MANGROVE_RAISED_BED))
+                .add(key(ATBlocks.OAK_RAISED_BED))
+                .add(key(ATBlocks.PALE_OAK_RAISED_BED))
+                .add(key(ATBlocks.SPRUCE_RAISED_BED))
+                .add(key(ATBlocks.WARPED_RAISED_BED))
 
-                .add(ATBlocks.ACACIA_CRATE)
-                .add(ATBlocks.BAMBOO_CRATE)
-                .add(ATBlocks.BIRCH_CRATE)
-                .add(ATBlocks.CHERRY_CRATE)
-                .add(ATBlocks.CRIMSON_CRATE)
-                .add(ATBlocks.DARK_OAK_CRATE)
-                .add(ATBlocks.JUNGLE_CRATE)
-                .add(ATBlocks.MANGROVE_CRATE)
-                .add(ATBlocks.OAK_CRATE)
-                .add(ATBlocks.PALE_OAK_CRATE)
-                .add(ATBlocks.SPRUCE_CRATE)
-                .add(ATBlocks.WARPED_CRATE);
+                .add(key(ATBlocks.ACACIA_CRATE))
+                .add(key(ATBlocks.BAMBOO_CRATE))
+                .add(key(ATBlocks.BIRCH_CRATE))
+                .add(key(ATBlocks.CHERRY_CRATE))
+                .add(key(ATBlocks.CRIMSON_CRATE))
+                .add(key(ATBlocks.DARK_OAK_CRATE))
+                .add(key(ATBlocks.JUNGLE_CRATE))
+                .add(key(ATBlocks.MANGROVE_CRATE))
+                .add(key(ATBlocks.OAK_CRATE))
+                .add(key(ATBlocks.PALE_OAK_CRATE))
+                .add(key(ATBlocks.SPRUCE_CRATE))
+                .add(key(ATBlocks.WARPED_CRATE));
     }
 }
