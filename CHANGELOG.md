@@ -16,5 +16,9 @@ All notable changes to this project will be documented here.
 ### Added
 - Tooltip injection on all valid soil blocks and fertilizers showing their planter growth modifiers
 
-## [2.0.0+neoforge-mc26.2] - 2026-06-19
+## [2.0.0+fabric-mc26.2] - 2026-06-19
 - Port to 26.2
+
+## [2.0.0.1+fabric-mc26.2] - 2026-06-20
+### Updated
+- Updated JEI and Jade
