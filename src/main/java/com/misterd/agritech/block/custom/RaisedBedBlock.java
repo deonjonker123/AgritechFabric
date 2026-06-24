@@ -1,7 +1,6 @@
 package com.misterd.agritech.block.custom;
 
 import com.misterd.agritech.blockentity.ATBlockEntities;
-import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
 import com.misterd.agritech.blockentity.custom.RaisedBedBlockEntity;
 import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.custom.RaisedBedMenu;
@@ -206,7 +205,7 @@ public class RaisedBedBlock extends BaseEntityBlock {
     }
 
     private InteractionResult handleHoeTill(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity bed, ItemStack heldItem, InteractionHand hand, BlockHitResult hitResult) {
-        ItemStack soilStack = bed.getItem(PlanterBlockEntity.SLOT_SOIL);
+        ItemStack soilStack = bed.getItem(RaisedBedBlockEntity.SLOT_SOIL);
         if (soilStack.isEmpty() || !(soilStack.getItem() instanceof BlockItem soilBlockItem)) {
             return InteractionResult.PASS;
         }
@@ -223,7 +222,7 @@ public class RaisedBedBlock extends BaseEntityBlock {
             Block resultBlock = getTillResult(soilBlock);
             if (resultBlock == null) return InteractionResult.PASS;
 
-            bed.setItem(PlanterBlockEntity.SLOT_SOIL, new ItemStack(resultBlock));
+            bed.setItem(RaisedBedBlockEntity.SLOT_SOIL, new ItemStack(resultBlock));
             level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
                 EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
