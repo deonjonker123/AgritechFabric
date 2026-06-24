@@ -15,3 +15,7 @@ All notable changes to this project will be documented here.
 - Compatibility layer is now fully data-driven. Seeds, saplings, soils, fertilizers and their values are defined via recipes and datamaps — fully packdev-accessible via datapacks or KubeJS.
 ### Added
 - Tooltip injection on all valid soil blocks and fertilizers showing their planter growth modifiers
+
+## [1.1.0.1+fabric-mc26.1.2] - 2026-06-24
+### Fixed
+- Fixed Farmer's Delight's Rich Soil to Rich Soil Farmland hoe tilling not working in planters and beds

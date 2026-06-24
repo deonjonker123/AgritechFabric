@@ -1,6 +1,7 @@
 package com.misterd.agritech.block.custom;
 
 import com.misterd.agritech.blockentity.ATBlockEntities;
+import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
 import com.misterd.agritech.blockentity.custom.RaisedBedBlockEntity;
 import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.custom.RaisedBedMenu;
@@ -12,7 +13,9 @@ import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -203,24 +206,24 @@ public class RaisedBedBlock extends BaseEntityBlock {
     }
 
     private InteractionResult handleHoeTill(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity bed, ItemStack heldItem, InteractionHand hand, BlockHitResult hitResult) {
-        ItemStack soilStack = bed.getItem(RaisedBedBlockEntity.SLOT_SOIL);
+        ItemStack soilStack = bed.getItem(PlanterBlockEntity.SLOT_SOIL);
         if (soilStack.isEmpty() || !(soilStack.getItem() instanceof BlockItem soilBlockItem)) {
             return InteractionResult.PASS;
         }
 
         Block soilBlock = soilBlockItem.getBlock();
+
         Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> tillables = HoeItemAccessor.getTillables();
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> tillable = tillables.get(soilBlock);
-        if (tillable == null) return InteractionResult.PASS;
 
         UseOnContext ctx = new UseOnContext(level, player, hand, heldItem, hitResult);
-        if (!tillable.getFirst().test(ctx)) return InteractionResult.PASS;
+        if (tillable != null && !tillable.getFirst().test(ctx)) return InteractionResult.PASS;
 
         if (!level.isClientSide()) {
             Block resultBlock = getTillResult(soilBlock);
             if (resultBlock == null) return InteractionResult.PASS;
 
-            bed.setItem(RaisedBedBlockEntity.SLOT_SOIL, new ItemStack(resultBlock));
+            bed.setItem(PlanterBlockEntity.SLOT_SOIL, new ItemStack(resultBlock));
             level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
                 EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
@@ -235,11 +238,11 @@ public class RaisedBedBlock extends BaseEntityBlock {
 
     @Nullable
     private Block getTillResult(Block input) {
-        if (!HoeItemAccessor.getTillables().containsKey(input)) return null;
         String inputId = RegistryHelper.getBlockId(input);
         return switch (inputId) {
             case "minecraft:dirt", "minecraft:grass_block", "minecraft:rooted_dirt" -> Blocks.FARMLAND;
             case "minecraft:coarse_dirt" -> Blocks.DIRT;
+            case "farmersdelight:rich_soil" -> BuiltInRegistries.BLOCK.getValue(Identifier.parse("farmersdelight:rich_soil_farmland"));
             default -> null;
         };
     }

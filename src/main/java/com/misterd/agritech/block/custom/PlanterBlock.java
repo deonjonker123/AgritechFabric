@@ -12,7 +12,9 @@ import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -216,12 +218,12 @@ public class PlanterBlock extends BaseEntityBlock {
         }
 
         Block soilBlock = soilBlockItem.getBlock();
+
         Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> tillables = HoeItemAccessor.getTillables();
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> tillable = tillables.get(soilBlock);
-        if (tillable == null) return InteractionResult.PASS;
 
         UseOnContext ctx = new UseOnContext(level, player, hand, heldItem, hitResult);
-        if (!tillable.getFirst().test(ctx)) return InteractionResult.PASS;
+        if (tillable != null && !tillable.getFirst().test(ctx)) return InteractionResult.PASS;
 
         if (!level.isClientSide()) {
             Block resultBlock = getTillResult(soilBlock);
@@ -242,11 +244,11 @@ public class PlanterBlock extends BaseEntityBlock {
 
     @Nullable
     private Block getTillResult(Block input) {
-        if (!HoeItemAccessor.getTillables().containsKey(input)) return null;
         String inputId = RegistryHelper.getBlockId(input);
         return switch (inputId) {
             case "minecraft:dirt", "minecraft:grass_block", "minecraft:rooted_dirt" -> Blocks.FARMLAND;
             case "minecraft:coarse_dirt" -> Blocks.DIRT;
+            case "farmersdelight:rich_soil" -> BuiltInRegistries.BLOCK.getValue(Identifier.parse("farmersdelight:rich_soil_farmland"));
             default -> null;
         };
     }
