@@ -18,4 +18,4 @@ All notable changes to this project will be documented here.
 
 ## [1.1.0.1+fabric-mc26.1.2] - 2026-06-24
 ### Fixed
-- Fixed Farmer's Delight's Rich Soil to Rich Soil Farmland hoe tilling not working in planters and beds
+- Fixed Farmer's Delight's Rich Soil to Rich Soil Farmland hoe tilling not working in planters and raised beds
