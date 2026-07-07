@@ -1,0 +1,35 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "regions_unexplored"
+      ]
+    }
+  ],
+  "type": "agritech:tree",
+  "sapling": "regions_unexplored:eucalyptus_sapling",
+  "soils": [
+    "#agritech:tree_soils"
+  ],
+  "drops": [
+    {
+      "item": "regions_unexplored:eucalyptus_log",
+      "min": 2,
+      "max": 6,
+      "chance": 1.0
+    },
+    {
+      "item": "regions_unexplored:eucalyptus_sapling",
+      "min": 1,
+      "max": 2,
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:stick",
+      "min": 1,
+      "max": 2,
+      "chance": 0.5
+    }
+  ]
+}

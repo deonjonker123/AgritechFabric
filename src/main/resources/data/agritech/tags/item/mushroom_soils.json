@@ -3,6 +3,9 @@
     "minecraft:mycelium",
     "minecraft:podzol",
     {"id":"farmersdelight:rich_soil", "required": false},
-    {"id":"farmersdelight:organic_compost", "required": false}
+    {"id":"farmersdelight:organic_compost", "required": false},
+
+    {"id":"regions_unexplored:peat_podzol", "required": false},
+    {"id":"regions_unexplored:silt_podzol", "required": false}
   ]
 }

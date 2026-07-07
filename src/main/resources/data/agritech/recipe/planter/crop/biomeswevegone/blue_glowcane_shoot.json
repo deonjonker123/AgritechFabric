@@ -1,0 +1,23 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "biomeswevegone"
+      ]
+    }
+  ],
+  "type": "agritech:crop",
+  "seed": "biomeswevegone:blue_glowcane_shoot",
+  "soils": [
+    "#agritech:sand_soils"
+  ],
+  "drops": [
+    {
+      "item": "biomeswevegone:blue_glowcane_shoot",
+      "min": 1,
+      "max": 1,
+      "chance": 1.0
+    }
+  ]
+}
