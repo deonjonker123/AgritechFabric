@@ -40,6 +40,217 @@
       "fabric:load_conditions": [
         { "condition": "fabric:all_mods_loaded", "values": ["farmersdelight"] }
       ]
+    },
+
+    "regions_unexplored:alpha_grass_block": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:peat_dirt": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:peat_coarse_dirt": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:peat_podzol": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:peat_mud": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:silt_grass_block": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:silt_dirt": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:silt_coarse_dirt": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:silt_podzol": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:silt_mud": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:stone_grass_block": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:deepslate_grass_block": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:chalk_grass_block": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:argillite_grass_block": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:mossy_stone": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:chalk": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:peat_farmland": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:silt_farmland": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:viridescent_nylium": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "regions_unexplored:deepslate_viridescent_nylium": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["regions_unexplored"] }
+      ]
+    },
+    "biomeswevegone:peat": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:lush_dirt": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:lush_grass_block": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:pale_mud": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:sandy_dirt": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:sandy_farmland": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:black_sand": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:white_sand": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:blue_sand": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:purple_sand": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:pink_sand": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:windswept_sand": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:quicksand": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:overgrown_stone": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
+    },
+    "biomeswevegone:lush_farmland": {
+      "growth_modifier": 0.5,
+      "fabric:load_conditions": [
+        { "condition": "fabric:all_mods_loaded", "values": ["biomeswevegone"] }
+      ]
     }
   }
 }

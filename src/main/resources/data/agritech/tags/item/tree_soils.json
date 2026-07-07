@@ -12,6 +12,25 @@
     "minecraft:moss_block",
     "minecraft:pale_moss_block",
     {"id":"farmersdelight:rich_soil", "required": false},
-    {"id":"farmersdelight:rich_soil_farmland","required": false}
+    {"id":"farmersdelight:rich_soil_farmland","required": false},
+
+    {"id":"regions_unexplored:alpha_grass_block", "required": false},
+    {"id":"regions_unexplored:peat_dirt", "required": false},
+    {"id":"regions_unexplored:peat_coarse_dirt", "required": false},
+    {"id":"regions_unexplored:peat_podzol", "required": false},
+    {"id":"regions_unexplored:peat_mud", "required": false},
+    {"id":"regions_unexplored:silt_grass_block", "required": false},
+    {"id":"regions_unexplored:silt_dirt", "required": false},
+    {"id":"regions_unexplored:silt_coarse_dirt", "required": false},
+    {"id":"regions_unexplored:silt_podzol", "required": false},
+    {"id":"regions_unexplored:silt_mud", "required": false},
+    {"id":"regions_unexplored:peat_farmland", "required": false},
+    {"id":"regions_unexplored:silt_farmland", "required": false},
+
+    {"id":"biomeswevegone:peat", "required": false},
+    {"id":"biomeswevegone:lush_dirt", "required": false},
+    {"id":"biomeswevegone:lush_grass_block", "required": false},
+    {"id":"biomeswevegone:pale_mud", "required": false},
+    {"id":"biomeswevegone:lush_farmland", "required": false}
   ]
 }

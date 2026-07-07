@@ -26,3 +26,7 @@ All notable changes to this project will be documented here.
 ## [2.0.0.2+fabric-mc26.2] - 2026-06-24
 ### Fixed
 - Fixed Farmer's Delight's Rich Soil to Rich Soil Farmland hoe tilling not working in planters and beds
+
+## [2.0.0.3+fabric-mc26.2] - 2026-07-07
+### Added
+- Added Biomes O' Plenty, Oh The Biomes We've Gone, and Regions Unexplored compatibility
