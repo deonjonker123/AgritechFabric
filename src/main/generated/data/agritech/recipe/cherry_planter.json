@@ -1,16 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
-    "D": "minecraft:cherry_slab",
     "H": "minecraft:hopper",
-    "L": "minecraft:cherry_log",
     "P": "minecraft:cherry_planks"
   },
   "pattern": [
-    "P P",
-    "PDP",
-    "LHL"
+    "PHP",
+    "PPP"
   ],
   "result": {
     "id": "agritech:cherry_planter"

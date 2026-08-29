@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "D": "minecraft:dark_oak_slab",
     "P": "minecraft:dark_oak_planks"

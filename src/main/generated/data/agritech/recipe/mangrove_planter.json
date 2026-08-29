@@ -1,16 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
-    "D": "minecraft:mangrove_slab",
     "H": "minecraft:hopper",
-    "L": "minecraft:mangrove_log",
     "P": "minecraft:mangrove_planks"
   },
   "pattern": [
-    "P P",
-    "PDP",
-    "LHL"
+    "PHP",
+    "PPP"
   ],
   "result": {
     "id": "agritech:mangrove_planter"

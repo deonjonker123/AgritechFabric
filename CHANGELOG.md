@@ -30,3 +30,11 @@ All notable changes to this project will be documented here.
 ## [2.0.0.3+fabric-mc26.2] - 2026-07-07
 ### Added
 - Added Biomes O' Plenty, Oh The Biomes We've Gone, and Regions Unexplored compatibility
+
+## [2.0.0.3+fabric-mc26.2] - 2026-08-29
+### Added
+- New vanilla crops compatability: all coral, short grass, and ferns
+
+### Changed
+
+- Updated basic planters' recipes to be less annoying 
