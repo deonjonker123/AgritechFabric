@@ -1,0 +1,15 @@
+{
+  "type": "agritech:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:large_fern",
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "seed": "minecraft:large_fern",
+  "soils": [
+    "#agritech:dirt_soils"
+  ]
+}

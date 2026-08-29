@@ -2,15 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "D": "minecraft:birch_slab",
     "H": "minecraft:hopper",
-    "L": "minecraft:birch_log",
     "P": "minecraft:birch_planks"
   },
   "pattern": [
-    "P P",
-    "PDP",
-    "LHL"
+    "PHP",
+    "PPP"
   ],
   "result": {
     "id": "agritech:birch_planter"
