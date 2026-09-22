@@ -1,4 +1,4 @@
-// 26.2	-999999999-01-01T00:00:00	Agritech/Model Definitions
+// 26.3	-999999999-01-01T00:00:00	Agritech/Model Definitions
 c82a49d5e32a1f80ac40954e2f5b7d80a9b124ec assets/agritech/blockstates/acacia_crate.json
 e731edc272030f78cff5897011f40fd55c2970a8 assets/agritech/blockstates/acacia_planter.json
 1b69c226a1fefe53afecc0047d6b50b97f8b981e assets/agritech/blockstates/acacia_raised_bed.json
@@ -29,6 +29,9 @@ b6b9e8b87cb7ceacda87b48d04a1872bb0b708fe assets/agritech/blockstates/oak_crate.j
 1f43236afde9d03185fffa025b78bc4f188496f3 assets/agritech/blockstates/pale_oak_crate.json
 1a7f7df55998ae10df1b64a156184a69532cd07a assets/agritech/blockstates/pale_oak_planter.json
 5b54b9425c26a83f36fd5b8a655678080d7f16fe assets/agritech/blockstates/pale_oak_raised_bed.json
+20f3be30b5a43edf9c6e72d1fda6949eb14315de assets/agritech/blockstates/poplar_crate.json
+98b66cf46b11feace8bdd87e1582751c214f674a assets/agritech/blockstates/poplar_planter.json
+65ecdb3fcda74c62dbdf448193636eab87ebbc40 assets/agritech/blockstates/poplar_raised_bed.json
 9fadd23316b773d9cdd82fcf6a8b3c9cdae4b04e assets/agritech/blockstates/spruce_crate.json
 dcf720290096b52743b5749c124c1200e0fbe9fa assets/agritech/blockstates/spruce_planter.json
 9caee91732e3cc49253658b90f89c9bb06a20a20 assets/agritech/blockstates/spruce_raised_bed.json
@@ -65,6 +68,9 @@ bb31875bd4a7ccc397b7de099ae4f62a2f368959 assets/agritech/items/oak_raised_bed.js
 156ac14e2a066d875ee606f098e6dc7e6bc36ca6 assets/agritech/items/pale_oak_crate.json
 61a45294500e093c36e2e441b9a7640525f413f0 assets/agritech/items/pale_oak_planter.json
 8975d5bf76c738d3b5e3f32808855045ac7f8716 assets/agritech/items/pale_oak_raised_bed.json
+b12a4ebea7f485ed3df4ed663f11b1550b504558 assets/agritech/items/poplar_crate.json
+da36671621ce40fcdd9c6c9d88c280fd7f35e957 assets/agritech/items/poplar_planter.json
+ad262f5a7946c2a5896f0f418fe7c7f8c773e22f assets/agritech/items/poplar_raised_bed.json
 c27dddf208d51fa4ab2250804020126cd9bac076 assets/agritech/items/spruce_crate.json
 2d1a8d51894d09ebc4f5a20bcbc4a404d427e9b7 assets/agritech/items/spruce_planter.json
 160a751497f4faecccd0cb5e6db6bc900d6c71f6 assets/agritech/items/spruce_raised_bed.json

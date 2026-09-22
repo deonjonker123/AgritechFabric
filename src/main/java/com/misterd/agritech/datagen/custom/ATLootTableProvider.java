@@ -24,6 +24,7 @@ public class ATLootTableProvider extends FabricBlockLootSubProvider {
         dropSelf(ATBlocks.MANGROVE_PLANTER);
         dropSelf(ATBlocks.OAK_PLANTER);
         dropSelf(ATBlocks.PALE_OAK_PLANTER);
+        dropSelf(ATBlocks.POPLAR_PLANTER);
         dropSelf(ATBlocks.SPRUCE_PLANTER);
         dropSelf(ATBlocks.WARPED_PLANTER);
 
@@ -37,6 +38,7 @@ public class ATLootTableProvider extends FabricBlockLootSubProvider {
         dropSelf(ATBlocks.MANGROVE_RAISED_BED);
         dropSelf(ATBlocks.OAK_RAISED_BED);
         dropSelf(ATBlocks.PALE_OAK_RAISED_BED);
+        dropSelf(ATBlocks.POPLAR_RAISED_BED);
         dropSelf(ATBlocks.SPRUCE_RAISED_BED);
         dropSelf(ATBlocks.WARPED_RAISED_BED);
 
@@ -50,6 +52,7 @@ public class ATLootTableProvider extends FabricBlockLootSubProvider {
         dropSelf(ATBlocks.MANGROVE_CRATE);
         dropSelf(ATBlocks.OAK_CRATE);
         dropSelf(ATBlocks.PALE_OAK_CRATE);
+        dropSelf(ATBlocks.POPLAR_CRATE);
         dropSelf(ATBlocks.SPRUCE_CRATE);
         dropSelf(ATBlocks.WARPED_CRATE);
     }

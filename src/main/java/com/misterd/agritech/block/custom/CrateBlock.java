@@ -2,10 +2,11 @@ package com.misterd.agritech.block.custom;
 
 import com.misterd.agritech.blockentity.ATBlockEntities;
 import com.misterd.agritech.blockentity.custom.CrateBlockEntity;
-import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -30,7 +31,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.core.Direction;
 import org.jspecify.annotations.Nullable;
 
 public class CrateBlock extends BaseEntityBlock {
@@ -44,8 +44,6 @@ public class CrateBlock extends BaseEntityBlock {
             Block.box(0,  1,  1,  1, 16, 15),
             Block.box(15, 1,  1, 16, 16, 15)
     );
-
-    public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
 
     public CrateBlock(Properties properties) {
         super(properties);
@@ -65,11 +63,6 @@ public class CrateBlock extends BaseEntityBlock {
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -93,7 +86,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
+    public void playerDestroy(ServerLevel level, ServerPlayer player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
         if (!level.isClientSide() && blockEntity instanceof CrateBlockEntity crate) {
             crate.drops();
         }

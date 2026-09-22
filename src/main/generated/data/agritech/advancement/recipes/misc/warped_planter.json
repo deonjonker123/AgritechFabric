@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:warped_planter"
+        "recipes": "agritech:warped_planter"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

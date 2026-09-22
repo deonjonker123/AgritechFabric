@@ -10,6 +10,7 @@
     "agritech:mangrove_planter",
     "agritech:oak_planter",
     "agritech:pale_oak_planter",
+    "agritech:poplar_planter",
     "agritech:spruce_planter",
     "agritech:warped_planter",
     "agritech:acacia_raised_bed",
@@ -22,6 +23,7 @@
     "agritech:mangrove_raised_bed",
     "agritech:oak_raised_bed",
     "agritech:pale_oak_raised_bed",
+    "agritech:poplar_raised_bed",
     "agritech:spruce_raised_bed",
     "agritech:warped_raised_bed",
     "agritech:acacia_crate",
@@ -34,6 +36,7 @@
     "agritech:mangrove_crate",
     "agritech:oak_crate",
     "agritech:pale_oak_crate",
+    "agritech:poplar_crate",
     "agritech:spruce_crate",
     "agritech:warped_crate"
   ]

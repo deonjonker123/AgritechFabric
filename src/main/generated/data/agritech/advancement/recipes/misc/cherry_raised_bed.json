@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:cherry_raised_bed"
+        "recipes": "agritech:cherry_raised_bed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

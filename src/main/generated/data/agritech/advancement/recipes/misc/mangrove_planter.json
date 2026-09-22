@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:mangrove_planter"
+        "recipes": "agritech:mangrove_planter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

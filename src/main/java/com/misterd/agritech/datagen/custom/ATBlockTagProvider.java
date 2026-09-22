@@ -32,6 +32,7 @@ public class ATBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 .add(key(ATBlocks.MANGROVE_PLANTER))
                 .add(key(ATBlocks.OAK_PLANTER))
                 .add(key(ATBlocks.PALE_OAK_PLANTER))
+                .add(key(ATBlocks.POPLAR_PLANTER))
                 .add(key(ATBlocks.SPRUCE_PLANTER))
                 .add(key(ATBlocks.WARPED_PLANTER))
 
@@ -45,6 +46,7 @@ public class ATBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 .add(key(ATBlocks.MANGROVE_RAISED_BED))
                 .add(key(ATBlocks.OAK_RAISED_BED))
                 .add(key(ATBlocks.PALE_OAK_RAISED_BED))
+                .add(key(ATBlocks.POPLAR_RAISED_BED))
                 .add(key(ATBlocks.SPRUCE_RAISED_BED))
                 .add(key(ATBlocks.WARPED_RAISED_BED))
 
@@ -58,6 +60,7 @@ public class ATBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 .add(key(ATBlocks.MANGROVE_CRATE))
                 .add(key(ATBlocks.OAK_CRATE))
                 .add(key(ATBlocks.PALE_OAK_CRATE))
+                .add(key(ATBlocks.POPLAR_CRATE))
                 .add(key(ATBlocks.SPRUCE_CRATE))
                 .add(key(ATBlocks.WARPED_CRATE));
     }

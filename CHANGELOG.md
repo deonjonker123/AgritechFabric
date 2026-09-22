@@ -38,3 +38,7 @@ All notable changes to this project will be documented here.
 ### Changed
 
 - Updated basic planters' recipes to be less annoying 
+
+## [3.0.0.0+fabric-mc26.3] - 2026-09-22
+### Changed
+- Port to Minecraft 26.3

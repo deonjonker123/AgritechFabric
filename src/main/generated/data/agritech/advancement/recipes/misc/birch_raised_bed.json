@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:birch_raised_bed"
+        "recipes": "agritech:birch_raised_bed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

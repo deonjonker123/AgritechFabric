@@ -38,6 +38,8 @@ public class ATBlocks {
             p -> new PlanterBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block PALE_OAK_PLANTER = registerBlock("pale_oak_planter",
             p -> new PlanterBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block POPLAR_PLANTER = registerBlock("poplar_planter",
+            p -> new PlanterBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block SPRUCE_PLANTER = registerBlock("spruce_planter",
             p -> new PlanterBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block WARPED_PLANTER = registerBlock("warped_planter",
@@ -63,6 +65,8 @@ public class ATBlocks {
             p -> new RaisedBedBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block PALE_OAK_RAISED_BED = registerBlock("pale_oak_raised_bed",
             p -> new RaisedBedBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block POPLAR_RAISED_BED = registerBlock("poplar_raised_bed",
+            p -> new RaisedBedBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block SPRUCE_RAISED_BED= registerBlock("spruce_raised_bed",
             p -> new RaisedBedBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block WARPED_RAISED_BED = registerBlock("warped_raised_bed",
@@ -87,6 +91,8 @@ public class ATBlocks {
     public static final Block OAK_CRATE = registerBlock("oak_crate",
             p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block PALE_OAK_CRATE = registerBlock("pale_oak_crate",
+            p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
+    public static final Block POPLAR_CRATE = registerBlock("poplar_crate",
             p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));
     public static final Block SPRUCE_CRATE= registerBlock("spruce_crate",
             p -> new CrateBlock(p.noOcclusion().strength(2F, 6F).sound(SoundType.WOOD)));

@@ -4,10 +4,7 @@ import com.misterd.agritech.blockentity.ATBlockEntities;
 import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
 import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.custom.PlanterMenu;
-import com.misterd.agritech.mixin.HoeItemAccessor;
 import com.misterd.agritech.util.RegistryHelper;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -19,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -26,9 +24,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -46,12 +42,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
 public class PlanterBlock extends BaseEntityBlock {
-    public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
 
     public static final VoxelShape SHAPE = Shapes.or(
             Block.box(1, 0, 1, 3, 11, 3),
@@ -71,11 +62,6 @@ public class PlanterBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {}
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
@@ -103,8 +89,8 @@ public class PlanterBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
-        if (!level.isClientSide() && blockEntity instanceof PlanterBlockEntity planter) {
+    public void playerDestroy(ServerLevel level, ServerPlayer player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
+        if (blockEntity instanceof PlanterBlockEntity planter) {
             planter.drops();
         }
         super.playerDestroy(level, player, pos, state, blockEntity, destroyedWith);
@@ -128,7 +114,7 @@ public class PlanterBlock extends BaseEntityBlock {
         if (isFertilizer(heldItem)) {
             return handleFertilizer(state, level, pos, player, planter, heldItem);
         }
-        if (heldItem.getItem() instanceof HoeItem) {
+        if (heldItem.is(ItemTags.HOES)) {
             return handleHoeTill(state, level, pos, player, planter, heldItem, hand, hitResult);
         }
 
@@ -217,23 +203,14 @@ public class PlanterBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
 
-        Block soilBlock = soilBlockItem.getBlock();
-
-        Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> tillables = HoeItemAccessor.getTillables();
-        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> tillable = tillables.get(soilBlock);
-
-        UseOnContext ctx = new UseOnContext(level, player, hand, heldItem, hitResult);
-        if (tillable != null && !tillable.getFirst().test(ctx)) return InteractionResult.PASS;
+        Block resultBlock = getTillResult(soilBlockItem.getBlock());
+        if (resultBlock == null) return InteractionResult.PASS;
 
         if (!level.isClientSide()) {
-            Block resultBlock = getTillResult(soilBlock);
-            if (resultBlock == null) return InteractionResult.PASS;
-
             planter.setItem(PlanterBlockEntity.SLOT_SOIL, new ItemStack(resultBlock));
-            level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundEvents.HOE_TILL.value(), SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
-                EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
-                        ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+                EquipmentSlot slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
                 heldItem.hurtAndBreak(1, player, slot);
             }
             planter.setChanged();

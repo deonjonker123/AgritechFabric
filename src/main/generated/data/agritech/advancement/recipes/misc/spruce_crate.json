@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:spruce_crate"
+        "recipes": "agritech:spruce_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

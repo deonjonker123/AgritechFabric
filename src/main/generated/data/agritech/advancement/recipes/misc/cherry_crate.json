@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:cherry_crate"
+        "recipes": "agritech:cherry_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

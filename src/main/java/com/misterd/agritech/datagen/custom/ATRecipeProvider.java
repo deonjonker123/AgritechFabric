@@ -3,12 +3,15 @@ package com.misterd.agritech.datagen.custom;
 import com.misterd.agritech.block.ATBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -18,8 +21,8 @@ public class ATRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
-        return new RecipeProvider(provider, recipeOutput) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, BootstrapContext<Recipe<?>> output, BootstrapContext<Advancement> advancementOutput) {
+        return new RecipeProvider(output, advancementOutput) {
             @Override
             public void buildRecipes() {
                 shaped(RecipeCategory.MISC, ATBlocks.ACACIA_PLANTER)
@@ -89,6 +92,12 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .define('H', Items.HOPPER)
                         .unlockedBy("has_pale_oak_log", has(Items.PALE_OAK_LOG)).save(output);
 
+                shaped(RecipeCategory.MISC, ATBlocks.POPLAR_PLANTER)
+                        .pattern("PHP").pattern("PPP")
+                        .define('P', Items.POPLAR_PLANKS)
+                        .define('H', Items.HOPPER)
+                        .unlockedBy("has_poplar_log", has(Items.POPLAR_LOG)).save(output);
+
                 shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_PLANTER)
                         .pattern("PHP").pattern("PPP")
                         .define('P', Items.SPRUCE_PLANKS)
@@ -157,6 +166,11 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .pattern("PDP")
                         .define('P', Items.PALE_OAK_PLANKS).define('D', Items.PALE_OAK_SLAB)
                         .unlockedBy("has_pale_oak_planks", has(Items.PALE_OAK_PLANKS)).save(output);
+
+                shaped(RecipeCategory.MISC, ATBlocks.POPLAR_RAISED_BED)
+                        .pattern("PDP")
+                        .define('P', Items.POPLAR_PLANKS).define('D', Items.POPLAR_SLAB)
+                        .unlockedBy("has_poplar_planks", has(Items.POPLAR_PLANKS)).save(output);
 
                 shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_RAISED_BED)
                         .pattern("PDP")
@@ -234,6 +248,12 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .define('P', Items.PALE_OAK_PLANKS).define('C', Items.CHEST)
                         .define('S', Items.PALE_OAK_SLAB)
                         .unlockedBy("has_pale_oak_planks", has(Items.PALE_OAK_PLANKS)).save(output);
+
+                shaped(RecipeCategory.MISC, ATBlocks.POPLAR_CRATE)
+                        .pattern("P P").pattern("PCP").pattern("PSP")
+                        .define('P', Items.POPLAR_PLANKS).define('C', Items.CHEST)
+                        .define('S', Items.POPLAR_SLAB)
+                        .unlockedBy("has_poplar_planks", has(Items.POPLAR_PLANKS)).save(output);
 
                 shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_CRATE)
                         .pattern("P P").pattern("PCP").pattern("PSP")

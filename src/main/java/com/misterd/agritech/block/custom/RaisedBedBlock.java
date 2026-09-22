@@ -4,10 +4,7 @@ import com.misterd.agritech.blockentity.ATBlockEntities;
 import com.misterd.agritech.blockentity.custom.RaisedBedBlockEntity;
 import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.custom.RaisedBedMenu;
-import com.misterd.agritech.mixin.HoeItemAccessor;
 import com.misterd.agritech.util.RegistryHelper;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -19,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -26,9 +24,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -45,10 +41,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
 public class RaisedBedBlock extends BaseEntityBlock {
 
     public static final VoxelShape SHAPE = Shapes.or(
@@ -59,8 +51,6 @@ public class RaisedBedBlock extends BaseEntityBlock {
             Block.box(1,  0,  1, 15, 1, 15)
     );
 
-    public static final MapCodec<RaisedBedBlock> CODEC = simpleCodec(RaisedBedBlock::new);
-
     public RaisedBedBlock(Properties properties) {
         super(properties);
     }
@@ -68,11 +58,6 @@ public class RaisedBedBlock extends BaseEntityBlock {
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -96,7 +81,7 @@ public class RaisedBedBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
+    public void playerDestroy(ServerLevel level, ServerPlayer player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
         if (!level.isClientSide() && blockEntity instanceof RaisedBedBlockEntity bed) {
             bed.drops();
         }
@@ -121,7 +106,7 @@ public class RaisedBedBlock extends BaseEntityBlock {
         if (isFertilizer(heldItem)) {
             return handleFertilizer(state, level, pos, player, bed, heldItem);
         }
-        if (heldItem.getItem() instanceof HoeItem) {
+        if (heldItem.is(ItemTags.HOES)) {
             return handleHoeTill(state, level, pos, player, bed, heldItem, hand, hitResult);
         }
 
@@ -210,23 +195,14 @@ public class RaisedBedBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
 
-        Block soilBlock = soilBlockItem.getBlock();
-
-        Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> tillables = HoeItemAccessor.getTillables();
-        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> tillable = tillables.get(soilBlock);
-
-        UseOnContext ctx = new UseOnContext(level, player, hand, heldItem, hitResult);
-        if (tillable != null && !tillable.getFirst().test(ctx)) return InteractionResult.PASS;
+        Block resultBlock = getTillResult(soilBlockItem.getBlock());
+        if (resultBlock == null) return InteractionResult.PASS;
 
         if (!level.isClientSide()) {
-            Block resultBlock = getTillResult(soilBlock);
-            if (resultBlock == null) return InteractionResult.PASS;
-
             bed.setItem(RaisedBedBlockEntity.SLOT_SOIL, new ItemStack(resultBlock));
-            level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundEvents.HOE_TILL.value(), SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
-                EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
-                        ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+                EquipmentSlot slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
                 heldItem.hurtAndBreak(1, player, slot);
             }
             bed.setChanged();

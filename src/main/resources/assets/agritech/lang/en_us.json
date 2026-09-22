@@ -11,6 +11,7 @@
   "block.agritech.mangrove_planter": "Mangrove Planter",
   "block.agritech.oak_planter": "Oak Planter",
   "block.agritech.pale_oak_planter": "Pale Oak Planter",
+  "block.agritech.poplar_planter": "Poplar Planter",
   "block.agritech.spruce_planter": "Spruce Planter",
   "block.agritech.warped_planter": "Warped Planter",
 
@@ -24,6 +25,7 @@
   "block.agritech.mangrove_raised_bed": "Mangrove Raised Bed",
   "block.agritech.oak_raised_bed": "Oak Raised Bed",
   "block.agritech.pale_oak_raised_bed": "Pale Oak Raised Bed",
+  "block.agritech.poplar_raised_bed": "Poplar Raised Bed",
   "block.agritech.spruce_raised_bed": "Spruce Raised Bed",
   "block.agritech.warped_raised_bed": "Warped Raised Bed",
 
@@ -37,6 +39,7 @@
   "block.agritech.mangrove_crate": "Mangrove Crate",
   "block.agritech.oak_crate": "Oak Crate",
   "block.agritech.pale_oak_crate": "Pale Oak Crate",
+  "block.agritech.poplar_crate": "Poplar Crate",
   "block.agritech.spruce_crate": "Spruce Crate",
   "block.agritech.warped_crate": "Warped Crate",
 
@@ -68,7 +71,6 @@
   "jade.agritech.crop_ready": "%s (Ready to Harvest)",
   "jade.agritech.soil_info": "Soil: %s (%s speed)",
   "jade.agritech.fertilizer_info": "Fertilizer: %s (Speed: %s, Yield: %s)",
-  "jade.agritech.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)",
   "jade.agritech.sky_boost": "Sunlight Bonus: %s",
 
   "jei.agritech.planter.tooltip": "Agritech Planters",

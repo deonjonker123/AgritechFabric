@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:acacia_planter"
+        "recipes": "agritech:acacia_planter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

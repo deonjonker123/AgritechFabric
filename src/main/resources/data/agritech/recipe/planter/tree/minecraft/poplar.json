@@ -1,0 +1,33 @@
+{
+  "type": "agritech:tree",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:poplar_log",
+      "max": 6,
+      "min": 2
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:poplar_sapling",
+      "max": 2,
+      "min": 1
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:stick",
+      "max": 2,
+      "min": 1
+    },
+    {
+      "chance": 1,
+      "item": "minecraft:shelf_mushroom",
+      "max": 2,
+      "min": 1
+    }
+  ],
+  "sapling": "minecraft:poplar_sapling",
+  "soils": [
+    "#agritech:tree_soils"
+  ]
+}

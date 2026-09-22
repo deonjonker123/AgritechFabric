@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritech:jungle_crate"
+        "recipes": "agritech:jungle_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

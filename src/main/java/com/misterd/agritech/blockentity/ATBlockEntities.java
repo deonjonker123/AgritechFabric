@@ -26,6 +26,7 @@ public class ATBlockEntities {
                                     ATBlocks.MANGROVE_PLANTER,
                                     ATBlocks.OAK_PLANTER,
                                     ATBlocks.PALE_OAK_PLANTER,
+                                    ATBlocks.POPLAR_PLANTER,
                                     ATBlocks.SPRUCE_PLANTER,
                                     ATBlocks.WARPED_PLANTER)
                             .build());
@@ -43,6 +44,7 @@ public class ATBlockEntities {
                                     ATBlocks.MANGROVE_RAISED_BED,
                                     ATBlocks.OAK_RAISED_BED,
                                     ATBlocks.PALE_OAK_RAISED_BED,
+                                    ATBlocks.POPLAR_RAISED_BED,
                                     ATBlocks.SPRUCE_RAISED_BED,
                                     ATBlocks.WARPED_RAISED_BED)
                             .build());
@@ -60,6 +62,7 @@ public class ATBlockEntities {
                                     ATBlocks.MANGROVE_CRATE,
                                     ATBlocks.OAK_CRATE,
                                     ATBlocks.PALE_OAK_CRATE,
+                                    ATBlocks.POPLAR_CRATE,
                                     ATBlocks.SPRUCE_CRATE,
                                     ATBlocks.WARPED_CRATE)
                             .build());
