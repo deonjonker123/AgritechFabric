@@ -38,7 +38,7 @@ All notable changes to this project will be documented here.
 ### Changed
 - Updated basic planters' recipes to be less annoying 
 
-[2.0.0.5+fabric-mc26.2]
+[2.0.0.5+fabric-mc26.2] - 2026-11-22
 ### Added
 - Cloche domes with its config and speed/yield bonus (#2)
 
