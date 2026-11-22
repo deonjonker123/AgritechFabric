@@ -42,3 +42,18 @@ All notable changes to this project will be documented here.
 ## [3.0.0.0+fabric-mc26.3] - 2026-09-22
 ### Changed
 - Port to Minecraft 26.3
+
+## [3.0.0.2+fabric-mc26.3] - 2026-11-22
+### Added
+- Cloche domes with its config and speed/yield bonus (#2)
+
+### Fixed
+- Servers: Soil/Fertilizer tooltips now show on the client
+- Servers: seeds/soils/fertilizers no longer flicker/fail when placing or shift-clicking
+- Full planters no longer delete harvested items when there is no more space
+- Datapacks adding to fertilizer/soil maps now merge with the defaults and other datapacks instead of replacing them
+- Planter contents and the cloche now drops contents when broken by any non-player means
+- Planters can now push items into modded containers (#3)
+- Network traffic performance improvements
+- Slightly improved harvest logic
+- Crates now respects item pickup delay on player-dropped items

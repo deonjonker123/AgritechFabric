@@ -1,6 +1,7 @@
 package com.misterd.agritech.item;
 
 import com.misterd.agritech.Agritech;
+import com.misterd.agritech.item.custom.ClocheItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -11,6 +12,8 @@ import net.minecraft.world.item.Item;
 import java.util.function.Function;
 
 public class ATItems {
+    public static final Item CLOCHE = registerItem("cloche_dome", ClocheItem::new);
+
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(Agritech.MODID, name),
                 function.apply(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Agritech.MODID, name)))));

@@ -57,6 +57,8 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.POPLAR_CRATE);
                         output.accept(ATBlocks.SPRUCE_CRATE);
                         output.accept(ATBlocks.WARPED_CRATE);
+
+                        output.accept(ATItems.CLOCHE);
                     }).build());
 
     public static void registerCreativeModeTabs() {}

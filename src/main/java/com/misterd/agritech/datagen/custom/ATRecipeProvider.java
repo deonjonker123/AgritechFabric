@@ -1,6 +1,8 @@
 package com.misterd.agritech.datagen.custom;
 
 import com.misterd.agritech.block.ATBlocks;
+import com.misterd.agritech.item.ATItems;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancements.Advancement;
@@ -25,6 +27,12 @@ public class ATRecipeProvider extends FabricRecipeProvider {
         return new RecipeProvider(output, advancementOutput) {
             @Override
             public void buildRecipes() {
+                shaped(RecipeCategory.MISC, ATItems.CLOCHE, 4)
+                        .pattern("III").pattern("IGI").pattern("III")
+                        .define('G', ConventionalItemTags.GLASS_BLOCKS)
+                        .define('I', Items.IRON_INGOT)
+                        .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT)).save(output);
+
                 shaped(RecipeCategory.MISC, ATBlocks.ACACIA_PLANTER)
                         .pattern("PHP").pattern("PPP")
                         .define('P', Items.ACACIA_PLANKS)
@@ -110,7 +118,6 @@ public class ATRecipeProvider extends FabricRecipeProvider {
                         .define('H', Items.HOPPER)
                         .unlockedBy("has_warped_stem", has(Items.WARPED_STEM)).save(output);
 
-                // Raised Beds
                 shaped(RecipeCategory.MISC, ATBlocks.ACACIA_RAISED_BED)
                         .pattern("PDP")
                         .define('P', Items.ACACIA_PLANKS).define('D', Items.ACACIA_SLAB)

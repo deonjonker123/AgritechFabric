@@ -66,9 +66,11 @@ public class CrateBlockEntity extends BlockEntity implements Container, MenuProv
                 pos.getX() + 1 + radius, pos.getY() + 1 + radius, pos.getZ() + 1 + radius
         );
 
+        int playerDropDelay = ATConfig.get().cratePlayerDropDelayTicks;
         List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, area);
         for (ItemEntity itemEntity : items) {
             if (itemEntity.isRemoved()) continue;
+            if (itemEntity.tickCount < playerDropDelay && itemEntity.getOwner() instanceof Player) continue;
             ItemStack stack = itemEntity.getItem();
             if (stack.isEmpty()) continue;
 
@@ -105,8 +107,6 @@ public class CrateBlockEntity extends BlockEntity implements Container, MenuProv
     public void drops() {
         Containers.dropContents(level, worldPosition, this);
     }
-
-    // --- Container ---
 
     @Override
     public int getContainerSize() { return SIZE; }
@@ -148,8 +148,6 @@ public class CrateBlockEntity extends BlockEntity implements Container, MenuProv
 
     @Override
     public void clearContent() { inventory.clear(); }
-
-    // --- Serialization ---
 
     @Override
     protected void saveAdditional(ValueOutput output) {

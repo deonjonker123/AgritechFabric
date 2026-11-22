@@ -2,14 +2,20 @@ package com.misterd.agritech.datagen.custom;
 
 import com.misterd.agritech.Agritech;
 import com.misterd.agritech.block.ATBlocks;
+import com.misterd.agritech.block.custom.PlanterBlock;
+import com.misterd.agritech.item.ATItems;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class ATModelProvider extends FabricModelProvider {
@@ -24,21 +30,32 @@ public class ATModelProvider extends FabricModelProvider {
                     .select(Direction.WEST, BlockModelGenerators.Y_ROT_270)
                     .select(Direction.NORTH, BlockModelGenerators.NOP);
 
+    private static final Identifier CLOCHE_DOME_MODEL = Identifier.fromNamespaceAndPath(Agritech.MODID, "block/cloche_dome");
+
+    private static void planter(BlockModelGenerators g, Block block) {
+        Identifier model = ModelLocationUtils.getModelLocation(block);
+        g.blockStateOutput.accept(MultiPartGenerator.multiPart(block)
+                .with(BlockModelGenerators.plainVariant(model))
+                .with(BlockModelGenerators.condition().term(PlanterBlock.CLOCHED, true),
+                        BlockModelGenerators.plainVariant(CLOCHE_DOME_MODEL)));
+        g.registerSimpleItemModel(block, model);
+    }
+
     @Override
     public void generateBlockStateModels(BlockModelGenerators g) {
-        g.createNonTemplateModelBlock(ATBlocks.ACACIA_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.BAMBOO_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.BIRCH_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.CHERRY_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.CRIMSON_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.DARK_OAK_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.JUNGLE_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.MANGROVE_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.OAK_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.PALE_OAK_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.POPLAR_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.SPRUCE_PLANTER);
-        g.createNonTemplateModelBlock(ATBlocks.WARPED_PLANTER);
+        planter(g, ATBlocks.ACACIA_PLANTER);
+        planter(g, ATBlocks.BAMBOO_PLANTER);
+        planter(g, ATBlocks.BIRCH_PLANTER);
+        planter(g, ATBlocks.CHERRY_PLANTER);
+        planter(g, ATBlocks.CRIMSON_PLANTER);
+        planter(g, ATBlocks.DARK_OAK_PLANTER);
+        planter(g, ATBlocks.JUNGLE_PLANTER);
+        planter(g, ATBlocks.MANGROVE_PLANTER);
+        planter(g, ATBlocks.OAK_PLANTER);
+        planter(g, ATBlocks.PALE_OAK_PLANTER);
+        planter(g, ATBlocks.POPLAR_PLANTER);
+        planter(g, ATBlocks.SPRUCE_PLANTER);
+        planter(g, ATBlocks.WARPED_PLANTER);
 
         g.createNonTemplateModelBlock(ATBlocks.ACACIA_RAISED_BED);
         g.createNonTemplateModelBlock(ATBlocks.BAMBOO_RAISED_BED);
@@ -96,5 +113,7 @@ public class ATModelProvider extends FabricModelProvider {
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerators itemModelGenerators) {}
+    public void generateItemModels(ItemModelGenerators itemModelGenerators) {
+        itemModelGenerators.generateFlatItem(ATItems.CLOCHE, ModelTemplates.FLAT_ITEM);
+    }
 }
