@@ -7,7 +7,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,6 +18,7 @@ public class PlanterMenu extends AbstractContainerMenu {
 
     public final PlanterBlockEntity blockEntity;
     private final Level level;
+    private final ContainerData data;
 
     public PlanterMenu(int id, Inventory inv, BlockPos pos) {
         this(id, inv, (PlanterBlockEntity) inv.player.level().getBlockEntity(pos));
@@ -25,6 +28,12 @@ public class PlanterMenu extends AbstractContainerMenu {
         super(ATMenuTypes.PLANTER_MENU, id);
         this.blockEntity = be;
         this.level = inv.player.level();
+        this.data = level.isClientSide() ? new SimpleContainerData(1) : new ContainerData() {
+            @Override public int get(int index) { return be.getGrowthProgressPercent(); }
+            @Override public void set(int index, int value) {}
+            @Override public int getCount() { return 1; }
+        };
+        addDataSlots(this.data);
 
         addSlot(new PlanterSlot(be, PlanterBlockEntity.SLOT_PLANT, 8, 18));
         addSlot(new PlanterSlot(be, PlanterBlockEntity.SLOT_SOIL, 8, 54));
@@ -37,6 +46,10 @@ public class PlanterMenu extends AbstractContainerMenu {
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
+    }
+
+    public float getGrowthProgress() {
+        return data.get(0) / 100.0F;
     }
 
     @Override

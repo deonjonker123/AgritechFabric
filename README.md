@@ -8,6 +8,10 @@ Farming automation mod. Planters and raised beds grow your crops and trees for y
 
 Plant a seed or sapling, it grows by itself, drops go into whatever's underneath it. All 11 vanilla wood types.
 
+## Cloche
+
+Glass dome that attaches to a planter. Boosts growth speed and yield, stacks with fertilizer. Right-click to attach, shift-right-click empty-handed to take it back off. Break a cloched planter and you get both items back separately.
+
 ## Fertilizer
 
 Works through data-maps. Pipe or hopper it into any side of the planter.

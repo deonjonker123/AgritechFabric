@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -15,6 +17,7 @@ public class RaisedBedMenu extends AbstractContainerMenu {
 
     public final RaisedBedBlockEntity blockEntity;
     private final Level level;
+    private final ContainerData data;
 
     public RaisedBedMenu(int id, Inventory inv, BlockPos pos) {
         this(id, inv, (RaisedBedBlockEntity) inv.player.level().getBlockEntity(pos));
@@ -24,12 +27,22 @@ public class RaisedBedMenu extends AbstractContainerMenu {
         super(ATMenuTypes.RAISED_BED_MENU, id);
         this.blockEntity = be;
         this.level = inv.player.level();
+        this.data = level.isClientSide() ? new SimpleContainerData(1) : new ContainerData() {
+            @Override public int get(int index) { return be.getGrowthProgressPercent(); }
+            @Override public void set(int index, int value) {}
+            @Override public int getCount() { return 1; }
+        };
+        addDataSlots(this.data);
 
         addSlot(new RaisedBedSlot(be, RaisedBedBlockEntity.SLOT_PLANT, 62, 19));
         addSlot(new RaisedBedSlot(be, RaisedBedBlockEntity.SLOT_SOIL, 98, 19));
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
+    }
+
+    public float getGrowthProgress() {
+        return data.get(0) / 100.0F;
     }
 
     @Override

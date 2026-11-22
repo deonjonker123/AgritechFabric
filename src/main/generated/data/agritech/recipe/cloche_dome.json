@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": "#c:glass_blocks",
+    "I": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "III",
+    "IGI",
+    "III"
+  ],
+  "result": {
+    "count": 4,
+    "id": "agritech:cloche_dome"
+  }
+}

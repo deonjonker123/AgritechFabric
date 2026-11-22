@@ -10,6 +10,9 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
@@ -22,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +61,7 @@ public class ATDataMaps {
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(
                 new DataMapLoader<>(
                         Identifier.fromNamespaceAndPath(Agritech.MODID, "fertilizers"),
-                        "data_maps/item/fertilizers.json",
+                        Identifier.fromNamespaceAndPath(Agritech.MODID, "data_maps/item/fertilizers.json"),
                         FertilizerData.CODEC,
                         (direct, tags) -> { fertilizers = direct; fertilizerTags = tags; }
                 )
@@ -65,11 +69,52 @@ public class ATDataMaps {
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(
                 new DataMapLoader<>(
                         Identifier.fromNamespaceAndPath(Agritech.MODID, "soil_modifiers"),
-                        "data_maps/item/soil_modifiers.json",
+                        Identifier.fromNamespaceAndPath(Agritech.MODID, "data_maps/item/soil_modifiers.json"),
                         SoilModifierData.CODEC,
                         (direct, tags) -> { soilModifiers = direct; soilModifierTags = tags; }
                 )
         );
+    }
+
+    public record Snapshot(Map<Item, FertilizerData> fertilizers, Map<Identifier, FertilizerData> fertilizerTags,
+                           Map<Item, SoilModifierData> soils, Map<Identifier, SoilModifierData> soilTags) {
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, Snapshot> STREAM_CODEC = StreamCodec.composite(
+                mapCodec(ByteBufCodecs.registry(Registries.ITEM), FertilizerData.STREAM_CODEC), Snapshot::fertilizers,
+                mapCodec(Identifier.STREAM_CODEC, FertilizerData.STREAM_CODEC), Snapshot::fertilizerTags,
+                mapCodec(ByteBufCodecs.registry(Registries.ITEM), SoilModifierData.STREAM_CODEC), Snapshot::soils,
+                mapCodec(Identifier.STREAM_CODEC, SoilModifierData.STREAM_CODEC), Snapshot::soilTags,
+                Snapshot::new
+        );
+
+        private static <K, V> StreamCodec<RegistryFriendlyByteBuf, Map<K, V>> mapCodec(
+                StreamCodec<? super RegistryFriendlyByteBuf, K> key, StreamCodec<? super RegistryFriendlyByteBuf, V> value) {
+            return ByteBufCodecs.map(HashMap::new, key, value);
+        }
+    }
+
+    public static Snapshot snapshot() {
+        return new Snapshot(new HashMap<>(fertilizers), tagsToMap(fertilizerTags),
+                new HashMap<>(soilModifiers), tagsToMap(soilModifierTags));
+    }
+
+    public static void applySnapshot(Snapshot snapshot) {
+        fertilizers = Map.copyOf(snapshot.fertilizers());
+        fertilizerTags = mapToTags(snapshot.fertilizerTags());
+        soilModifiers = Map.copyOf(snapshot.soils());
+        soilModifierTags = mapToTags(snapshot.soilTags());
+    }
+
+    private static <T> Map<Identifier, T> tagsToMap(List<TagEntry<T>> tags) {
+        Map<Identifier, T> out = new LinkedHashMap<>();
+        for (TagEntry<T> entry : tags) out.put(entry.tag().location(), entry.value());
+        return out;
+    }
+
+    private static <T> List<TagEntry<T>> mapToTags(Map<Identifier, T> map) {
+        List<TagEntry<T>> out = new ArrayList<>();
+        map.forEach((id, value) -> out.add(new TagEntry<>(TagKey.create(Registries.ITEM, id), value)));
+        return List.copyOf(out);
     }
 
     private record TagEntry<T>(TagKey<Item> tag, T value) {}
@@ -77,13 +122,13 @@ public class ATDataMaps {
     private static class DataMapLoader<T> implements SimpleSynchronousResourceReloadListener {
 
         private final Identifier fabricId;
-        private final String relativePath;
+        private final Identifier file;
         private final Codec<T> codec;
         private final BiConsumer<Map<Item, T>, List<TagEntry<T>>> sink;
 
-        DataMapLoader(Identifier fabricId, String relativePath, Codec<T> codec, BiConsumer<Map<Item, T>, List<TagEntry<T>>> sink) {
+        DataMapLoader(Identifier fabricId, Identifier file, Codec<T> codec, BiConsumer<Map<Item, T>, List<TagEntry<T>>> sink) {
             this.fabricId = fabricId;
-            this.relativePath = relativePath;
+            this.file = file;
             this.codec = codec;
             this.sink = sink;
         }
@@ -98,20 +143,16 @@ public class ATDataMaps {
             Map<Item, T> direct = new LinkedHashMap<>();
             List<TagEntry<T>> tags = new ArrayList<>();
 
-            String folder = relativePath.substring(0, relativePath.lastIndexOf('/'));
-            Map<Identifier, Resource> resources = manager.listResources(
-                    folder, id -> id.getPath().equals(relativePath));
-
-            for (Map.Entry<Identifier, Resource> entry : resources.entrySet()) {
-                try (Reader reader = new InputStreamReader(entry.getValue().open(), StandardCharsets.UTF_8)) {
+            for (Resource resource : manager.getResourceStack(file)) {
+                try (Reader reader = new InputStreamReader(resource.open(), StandardCharsets.UTF_8)) {
                     JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
                     apply(json, direct, tags);
                 } catch (IOException | RuntimeException e) {
-                    Agritech.LOGGER.error("Failed to load data map file {}", entry.getKey(), e);
+                    Agritech.LOGGER.error("Failed to load data map {} from pack {}", file, resource.sourcePackId(), e);
                 }
             }
 
-            sink.accept(direct, tags);
+            sink.accept(Map.copyOf(direct), List.copyOf(tags));
         }
 
         private void apply(JsonObject json, Map<Item, T> direct, List<TagEntry<T>> tags) {
@@ -130,11 +171,11 @@ public class ATDataMaps {
                         tags.removeIf(t -> t.tag().equals(tagKey));
                         tags.add(new TagEntry<>(tagKey, value));
                     } else {
-                        Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(key));
-                        if (item != null) {
-                            direct.put(item, value);
+                        Identifier id = Identifier.parse(key);
+                        if (BuiltInRegistries.ITEM.containsKey(id)) {
+                            direct.put(BuiltInRegistries.ITEM.getValue(id), value);
                         } else {
-                            Agritech.LOGGER.warn("Unknown item '{}' in data map file", key);
+                            Agritech.LOGGER.debug("Skipping unknown item '{}' in data map {}", key, file);
                         }
                     }
                 }

@@ -13,11 +13,21 @@ public class ATConfig implements ConfigData {
     public int planterBaseProcessingTime = 1200;
 
     @ConfigEntry.Gui.Tooltip
+    public double clocheSpeedMultiplier = 1.15;
+
+    @ConfigEntry.Gui.Tooltip
+    public double clocheYieldMultiplier = 1.10;
+
+    @ConfigEntry.Gui.Tooltip
     public double raisedBedSkyDaySpeedMultiplier = 1.25;
 
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.BoundedDiscrete(min = 1, max = 1200)
     public int cratePickupIntervalTicks = 20;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 1200)
+    public int cratePlayerDropDelayTicks = 60;
 
     public static ATConfig get() {
         return AutoConfig.getConfigHolder(ATConfig.class).getConfig();

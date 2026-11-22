@@ -1,6 +1,7 @@
 package com.misterd.agritech.compat.jade;
 
 import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
+import com.misterd.agritech.config.ATConfig;
 import com.misterd.agritech.datamap.ATDataMaps;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
@@ -53,6 +54,13 @@ public enum PlanterProvider implements IServerDataProvider<BlockAccessor> {
             data.putFloat("fertilizerYieldModifier", fertData != null ? fertData.yieldMultiplier() : 1.0F);
         } else {
             data.putBoolean("hasFertilizer", false);
+        }
+
+        boolean cloched = planter.isCloched();
+        data.putBoolean("isCloched", cloched);
+        if (cloched) {
+            data.putFloat("clocheSpeedModifier", (float) ATConfig.get().clocheSpeedMultiplier);
+            data.putFloat("clocheYieldModifier", (float) ATConfig.get().clocheYieldMultiplier);
         }
     }
 }

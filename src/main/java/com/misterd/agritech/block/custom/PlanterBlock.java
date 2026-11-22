@@ -4,6 +4,8 @@ import com.misterd.agritech.blockentity.ATBlockEntities;
 import com.misterd.agritech.blockentity.custom.PlanterBlockEntity;
 import com.misterd.agritech.datamap.ATDataMaps;
 import com.misterd.agritech.gui.custom.PlanterMenu;
+import com.misterd.agritech.item.ATItems;
+import com.misterd.agritech.item.custom.ClocheItem;
 import com.misterd.agritech.mixin.HoeItemAccessor;
 import com.misterd.agritech.util.RegistryHelper;
 import com.mojang.datafixers.util.Pair;
@@ -40,6 +42,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -65,12 +68,17 @@ public class PlanterBlock extends BaseEntityBlock {
             Block.box(3, 2, 3, 13, 3, 13)
     );
 
+    public static final BooleanProperty CLOCHED = BooleanProperty.create("cloched");
+
     public PlanterBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(CLOCHED, false));
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {}
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(CLOCHED);
+    }
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
@@ -103,21 +111,19 @@ public class PlanterBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
-        if (!level.isClientSide() && blockEntity instanceof PlanterBlockEntity planter) {
-            planter.drops();
-        }
-        super.playerDestroy(level, player, pos, state, blockEntity, destroyedWith);
-    }
-
-    @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!(level.getBlockEntity(pos) instanceof PlanterBlockEntity planter)) return InteractionResult.FAIL;
 
         ItemStack heldItem = player.getItemInHand(hand);
 
+        if (player.isCrouching() && heldItem.isEmpty() && state.getValue(CLOCHED)) {
+            return handleClocheRemoval(state, level, pos);
+        }
         if (player.isCrouching()) {
             return handleCrouchOpen(level, pos, player, planter);
+        }
+        if (heldItem.getItem() instanceof ClocheItem) {
+            return handleClochePlace(state, level, pos, player, heldItem);
         }
         if (planter.isValidPlant(heldItem)) {
             return handlePlantInsert(state, level, pos, player, planter, heldItem);
@@ -138,6 +144,25 @@ public class PlanterBlock extends BaseEntityBlock {
 
     private static boolean isFertilizer(ItemStack stack) {
         return !stack.isEmpty() && ATDataMaps.getFertilizer(stack.getItem()) != null;
+    }
+
+    private InteractionResult handleClocheRemoval(BlockState state, Level level, BlockPos pos) {
+        if (!level.isClientSide()) {
+            level.setBlock(pos, state.setValue(CLOCHED, false), 3);
+            Block.popResource(level, pos.above(), new ItemStack(ATItems.CLOCHE));
+            level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.5F, 1.2F);
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    private InteractionResult handleClochePlace(BlockState state, Level level, BlockPos pos, Player player, ItemStack heldItem) {
+        if (state.getValue(CLOCHED)) return InteractionResult.FAIL;
+        if (!level.isClientSide()) {
+            level.setBlock(pos, state.setValue(CLOCHED, true), 3);
+            if (!player.getAbilities().instabuild) heldItem.shrink(1);
+            level.playSound(null, pos, SoundEvents.GLASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+        return InteractionResult.SUCCESS;
     }
 
     private InteractionResult handleCrouchOpen(Level level, BlockPos pos, Player player, PlanterBlockEntity planter) {
