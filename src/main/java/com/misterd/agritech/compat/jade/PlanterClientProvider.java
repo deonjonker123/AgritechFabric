@@ -41,12 +41,13 @@ public enum PlanterClientProvider implements IBlockComponentProvider {
             float fertSpeed = data.getFloatOr("fertilizerSpeedModifier", 1f);
             float fertYield = data.getFloatOr("fertilizerYieldModifier", 1f);
             tooltip.add(Component.translatable("jade.agritech.fertilizer_info",
-                            data.getStringOr("fertilizerName", ""), String.format("%.2fx", fertSpeed), String.format("%.2fx", fertYield)).withStyle(ChatFormatting.GOLD));
+                    data.getStringOr("fertilizerName", ""), String.format("%.2fx", fertSpeed), String.format("%.2fx", fertYield)).withStyle(ChatFormatting.GOLD));
         }
 
         if (data.getBooleanOr("isCloched", false)) {
             float clocheSpeed = data.getFloatOr("clocheSpeedModifier", 1f);
             float clocheYield = data.getFloatOr("clocheYieldModifier", 1f);
+            tooltip.add(Component.translatable("jade.agritech.cloche_installed", String.format("%.2fx", clocheSpeed), String.format("%.2fx", clocheYield)).withStyle(ChatFormatting.AQUA));
         }
     }
 }

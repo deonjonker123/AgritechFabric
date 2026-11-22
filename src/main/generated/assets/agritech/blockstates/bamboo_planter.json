@@ -1,7 +1,17 @@
 {
-  "variants": {
-    "": {
-      "model": "agritech:block/bamboo_planter"
+  "multipart": [
+    {
+      "apply": {
+        "model": "agritech:block/bamboo_planter"
+      }
+    },
+    {
+      "apply": {
+        "model": "agritech:block/cloche_dome"
+      },
+      "when": {
+        "cloched": "true"
+      }
     }
-  }
+  ]
 }

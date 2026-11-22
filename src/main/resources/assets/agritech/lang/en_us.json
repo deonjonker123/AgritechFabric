@@ -44,6 +44,7 @@
   "gui.agritech.raised_bed_menu": "Raised Bed",
   "gui.agritech.crate_menu": "Crate",
 
+  "item.agritech.cloche_dome": "Cloche Dome",
   "item.agritech.cloche.tooltip.line1": "Place on a planter to improve growth and yield.",
   "item.agritech.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
   "item.agritech.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
@@ -87,5 +88,11 @@
   "text.autoconfig.agritech.option.raisedBedSkyDaySpeedMultiplier": "Raised Bed Sky/Day Speed Multiplier",
   "text.autoconfig.agritech.option.raisedBedSkyDaySpeedMultiplier.@Tooltip": "Growth speed multiplier applied to a raised bed when it can see the sky during the day.",
   "text.autoconfig.agritech.option.cratePickupIntervalTicks": "Crate Pickup Interval",
-  "text.autoconfig.agritech.option.cratePickupIntervalTicks.@Tooltip": "How often, in ticks (20 ticks = 1 second), a crate checks for and picks up nearby items."
+  "text.autoconfig.agritech.option.cratePickupIntervalTicks.@Tooltip": "How often, in ticks (20 ticks = 1 second), a crate checks for and picks up nearby items.",
+  "text.autoconfig.agritech.option.cratePlayerDropDelayTicks": "Crate Player Drop Delay",
+  "text.autoconfig.agritech.option.cratePlayerDropDelayTicks.@Tooltip": "How long, in ticks, an item thrown by a player is left alone before a crate will pick it up.",
+  "text.autoconfig.agritech.option.clocheSpeedMultiplier": "Cloche Speed Multiplier",
+  "text.autoconfig.agritech.option.clocheSpeedMultiplier.@Tooltip": "Growth speed multiplier applied to a planter with a cloche dome installed.",
+  "text.autoconfig.agritech.option.clocheYieldMultiplier": "Cloche Yield Multiplier",
+  "text.autoconfig.agritech.option.clocheYieldMultiplier.@Tooltip": "Harvest yield multiplier applied to a planter with a cloche dome installed."
 }

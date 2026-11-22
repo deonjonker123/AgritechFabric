@@ -36,7 +36,7 @@ public class RaisedBedScreen extends AbstractContainerScreen<RaisedBedMenu> {
                 this.leftPos, this.topPos, 0.0F, 0.0F,
                 this.imageWidth, this.imageHeight, 256, 256);
 
-        float growthProgress = this.menu.blockEntity.getGrowthProgress();
+        float growthProgress = this.menu.getGrowthProgress();
         if (growthProgress > 0.0F) {
             int barHeight = (int) (18 * growthProgress);
             int barY = this.topPos + 18 + 18 - barHeight;
@@ -53,7 +53,7 @@ public class RaisedBedScreen extends AbstractContainerScreen<RaisedBedMenu> {
     protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         if (mouseX >= this.leftPos + 122 && mouseX <= this.leftPos + 128
                 && mouseY >= this.topPos + 18 && mouseY <= this.topPos + 37) {
-            float progress = this.menu.blockEntity.getGrowthProgress();
+            float progress = this.menu.getGrowthProgress();
             graphics.setComponentTooltipForNextFrame(this.font, List.of(
                     Component.translatable("tooltip.agritech.growth_progress"),
                     Component.literal(String.format("%.1f%%", progress * 100.0F))
